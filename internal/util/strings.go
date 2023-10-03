@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"errors"
 	"io"
-	"math/rand"
 
 	"github.com/gabe565/pwgen-go/internal/wordlists"
 )
@@ -13,15 +12,18 @@ import (
 func RandWord() (string, error) {
 	var line int
 	for line < 32 {
-		line = rand.Intn(wordlists.EnLines)
+		var err error
+		if line, err = CryptoRandn(wordlists.EnLines); err != nil {
+			return "", err
+		}
 	}
 
 	return GetLine(bytes.NewReader(wordlists.En), line)
 }
 
-func RandWords(n uint) ([]string, error) {
+func RandWords(n int) ([]string, error) {
 	result := make([]string, 0, n)
-	for i := uint(0); i < n; i += 1 {
+	for i := 0; i < n; i += 1 {
 		word, err := RandWord()
 		if err != nil {
 			return result, err
