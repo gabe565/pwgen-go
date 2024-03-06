@@ -4,7 +4,7 @@ go 1.21.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 )
 
 require (
