@@ -1,6 +1,6 @@
 module github.com/gabe565/pwgen-go
 
-go 1.21.1
+go 1.22.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
