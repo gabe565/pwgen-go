@@ -29,6 +29,8 @@ archives:
       - goos: windows
         format: zip
     files:
+      - LICENSE
+      - README.md
       - manpages/*
       - completions/*
 checksum:
@@ -110,6 +112,8 @@ aurs:
     package: |-
       # bin
       install -Dm755 "./{{ .ProjectName }}" "${pkgdir}/usr/bin/{{ .ProjectName }}"
+      # license
+      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/{{ .ProjectName }}/LICENSE"
       # man pages
       install -Dm644 "./manpages/{{ .ProjectName }}.1.gz" "${pkgdir}/usr/share/man/man1/{{ .ProjectName }}.1.gz"
       # completions
