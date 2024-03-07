@@ -83,12 +83,12 @@ Download and run the [latest release binary](https://github.com/gabe565/pwgen-go
 </details>
 
 ## Usage
-Run `pwgen-go template` for a list of generated passwords. The template can be customized with the `--template` (`-t`) flag, and the number of generated entries can be customized with `--count` (`-c`).  
+Run `pwgen template` for a list of generated passwords. The template can be customized with the `--template` (`-t`) flag, and the number of generated entries can be customized with `--count` (`-c`).  
 Also see the generated [docs](docs/pwgen.md).
 
 ### Example
 ```shell
-$ pwgen-go template
+$ pwgen template
 Ranch-Advert-Sufficiently6
 Flavor-Development-Livecam5
 Correctly-Arkansas-Shaw8
