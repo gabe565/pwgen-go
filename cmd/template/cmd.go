@@ -12,7 +12,7 @@ import (
 func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "template",
-		Short: "Generates a password from a template",
+		Short: "Generates passwords from a template",
 		RunE:  run,
 	}
 
