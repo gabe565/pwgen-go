@@ -1,0 +1,82 @@
+project_name: pwgen-go
+builds:
+  - env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s
+      - -w
+      - -X main.version=v{{.Version}}
+      - -X main.commit={{.ShortCommit}}
+      - -X main.date={{.CommitDate}}
+      - -X main.builtBy=goreleaser
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - "7"
+    mod_timestamp: "{{.CommitTimestamp}}"
+archives:
+  - format: tar.gz
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ incpatch .Version }}-beta"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs'
+      - '^test'
+  groups:
+    - title: Features
+      order: 0
+      regexp: "(feat)"
+    - title: Fixes
+      order: 1
+      regexp: "(fix|perf)"
+    - title: Others
+      order: 999
+brews:
+  - homepage: https://github.com/gabe565/pwgen-go
+    description: Command line password generator written in Go
+    license: MIT
+    repository:
+      owner: gabe565
+      name: homebrew-tap
+    folder: Formula
+nfpms:
+  - id: packages
+    vendor: Gabe Cook
+    homepage: https://github.com/gabe565/pwgen-go
+    description: Command line password generator written in Go
+    license: MIT
+    maintainer: Gabe Cook <gabe565@gmail.com>
+    formats:
+      - deb
+      - rpm
+publishers:
+  - name: fury.io
+    ids:
+      - packages
+    dir: "{{ dir .ArtifactPath }}"
+    cmd: curl -sf -Fpackage=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/gabe565/
+aurs:
+  - name: "{{ .ProjectName }}-bin"
+    homepage: https://github.com/gabe565/pwgen-go
+    description: Command line password generator written in Go
+    maintainers:
+      - Gabe Cook <gabe565@gmail.com>
+    license: MIT
+    private_key: '{{ .Env.AUR_SSH_KEY }}'
+    git_url: ssh://aur@aur.archlinux.org/{{ .ProjectName }}-bin.git
+    skip_upload: auto
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
