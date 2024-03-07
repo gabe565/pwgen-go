@@ -9,6 +9,8 @@ func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "pwgen",
 		Short: "Generate passwords",
+
+		DisableAutoGenTag: true,
 	}
 
 	cmd.PersistentFlags().IntP("count", "c", 10, "Number of passwords to generate")
