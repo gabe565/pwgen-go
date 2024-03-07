@@ -2,3 +2,5 @@
 /manpages/
 /completions/
 /dist/
+/pwgen
+/pwgen-go
