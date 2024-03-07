@@ -1,6 +1,6 @@
 ## pwgen template
 
-Generates passwords from a template
+Generates passwords from a template (default)
 
 ```
 pwgen template [flags]

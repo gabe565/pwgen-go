@@ -12,5 +12,5 @@ Generate passwords
 
 ### SEE ALSO
 
-* [pwgen template](pwgen_template.md)	 - Generates passwords from a template
+* [pwgen template](pwgen_template.md)	 - Generates passwords from a template (default)
 
