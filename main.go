@@ -7,8 +7,13 @@ import (
 	"github.com/gabe565/pwgen-go/cmd"
 )
 
+var (
+	version = "beta"
+	commit  = ""
+)
+
 func main() {
-	rootCmd := cmd.New()
+	rootCmd := cmd.New(version, commit)
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}

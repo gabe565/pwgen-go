@@ -9,10 +9,11 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func New() *cobra.Command {
+func New(version, commit string) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "pwgen",
-		Short: "Generate passwords",
+		Use:     "pwgen",
+		Short:   "Generate passwords",
+		Version: buildVersion(version, commit),
 
 		DisableAutoGenTag: true,
 	}
@@ -27,11 +28,21 @@ func New() *cobra.Command {
 	)
 
 	// default cmd if no cmd is given
+	cmd.InitDefaultVersionFlag()
 	subCmd, _, err := cmd.Find(os.Args[1:])
 	if err == nil && subCmd.Use == cmd.Use && cmd.Flags().Parse(os.Args[1:]) != pflag.ErrHelp {
-		args := append([]string{template.Use}, os.Args[1:]...)
-		cmd.SetArgs(args)
+		if versionFlag, err := cmd.Flags().GetBool("version"); err == nil && !versionFlag {
+			args := append([]string{template.Use}, os.Args[1:]...)
+			cmd.SetArgs(args)
+		}
 	}
 
 	return cmd
+}
+
+func buildVersion(version, commit string) string {
+	if commit != "" {
+		version += " (" + commit + ")"
+	}
+	return version
 }
