@@ -16,7 +16,8 @@ pwgen template [flags]
 ### Options inherited from parent commands
 
 ```
-  -c, --count int   Number of passwords to generate (default 10)
+      --config string   Config file (default $HOME/.config/pwgen-go/config.toml)
+  -c, --count int       Number of passwords to generate (default 10)
 ```
 
 ### SEE ALSO

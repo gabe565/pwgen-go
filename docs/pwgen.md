@@ -5,8 +5,9 @@ Generate passwords
 ### Options
 
 ```
-  -c, --count int   Number of passwords to generate (default 10)
-  -h, --help        help for pwgen
+      --config string   Config file (default $HOME/.config/pwgen-go/config.toml)
+  -c, --count int       Number of passwords to generate (default 10)
+  -h, --help            help for pwgen
 ```
 
 ### SEE ALSO
