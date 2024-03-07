@@ -1,4 +1,0 @@
-# Number of passwords to generate.
-count = 10
-# Template used to generate passwords.
-template = '{{ randWords 3 | join "-" | title }}{{ randNumeric 1 }}'
