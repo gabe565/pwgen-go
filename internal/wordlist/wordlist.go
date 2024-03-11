@@ -1,4 +1,4 @@
-package wordlists
+package wordlist
 
 import (
 	"github.com/gabe565/pwgen-go/internal/util"
