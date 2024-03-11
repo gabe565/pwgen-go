@@ -91,16 +91,16 @@ Also see the generated [docs](docs/pwgen.md).
 ### Example
 ```shell
 $ pwgen
-Ranch-Advert-Sufficiently6
-Flavor-Development-Livecam5
-Correctly-Arkansas-Shaw8
-Plants-Conducting-Bradford8
-Nickname-Costs-Translate6
-Meanwhile-Letting-Arlington3
-Elimination-Chronic-Chip3
-Fundamental-Marcus-Mathematical6
-Reports-Sentence-Purchase2
-Unlimited-Holland-Shaved3
+Pebbly1-Destitute-Shelve
+Mushiness-Possibly0-Trustee
+Trimness-Freebase2-Spotless
+Recall7-Uncrushed-Agreeing
+Tavern-Moustache1-Scrubber
+Lyrically2-Comic-Imitate
+Idiom-Jockey-Subheader6
+Blot-Sympathy9-Nurture
+Womanhood6-Capsize-Zigzagged
+Unwomanly-Unwashed1-Urchin
 ```
 
 ## Templating
