@@ -103,6 +103,15 @@ Womanhood6-Capsize-Zigzagged
 Unwomanly-Unwashed1-Urchin
 ```
 
+## Configuration
+
+A configuration file will be generated the first time pwgen-go is run. Depending on your operating system, the file will be available at:
+- **Windows:** `%AppData%\pwgen-go\config.toml`
+- **macOS:** `~/Library/Application Support/pwgen-go/config.toml`
+- **Linux:** `~/.config/pwgen-go/config.toml`
+
+An example configuration is also available at [`config_example.toml`](config_example.toml).
+
 ## Templating
 
 Templated passphrases are generated using Go's [text/template](https://pkg.go.dev/text/template) package.

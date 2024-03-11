@@ -1,0 +1,6 @@
+# Number of passphrases to generate.
+count = 10
+# Template used to generate passphrases.
+template = '{{ wordsWithNumber 3 | join "-" | title }}'
+# Wordlist to use. (one of: long, short1, short2)
+wordlist = 'long'

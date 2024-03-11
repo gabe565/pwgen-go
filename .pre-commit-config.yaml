@@ -16,3 +16,9 @@ repos:
         entry: go run ./internal/generate/docs
         language: system
         pass_filenames: false
+      - id: config-example
+        name: config-example
+        entry: go run ./internal/generate/config
+        language: system
+        types: [go]
+        pass_filenames: false
