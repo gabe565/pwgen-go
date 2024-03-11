@@ -20,6 +20,7 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		PreRunE: preRun,
 		RunE:    run,
 
+		ValidArgsFunction: cobra.NoFileCompletions,
 		DisableAutoGenTag: true,
 	}
 
