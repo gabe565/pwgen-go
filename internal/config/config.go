@@ -8,6 +8,6 @@ type Config struct {
 func NewDefault() *Config {
 	return &Config{
 		Count:    10,
-		Template: `{{ randWords 3 | join "-" | title }}{{ randNumeric 1 }}`,
+		Template: `{{ words 3 | join "-" | title }}{{ number 1 }}`,
 	}
 }

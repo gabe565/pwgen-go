@@ -10,7 +10,7 @@ pwgen template [flags]
 
 ```
   -h, --help              help for template
-  -t, --template string   Go template that generates a password (default "{{ randWords 3 | join \"-\" | title }}{{ randNumeric 1 }}")
+  -t, --template string   Go template that generates a password (default "{{ words 3 | join \"-\" | title }}{{ number 1 }}")
 ```
 
 ### Options inherited from parent commands
