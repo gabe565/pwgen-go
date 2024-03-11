@@ -42,7 +42,7 @@ func main() {
 	rootCmd.SetOut(&buf)
 
 	for _, shell := range Shells {
-		rootCmd.SetArgs([]string{"completion", shell})
+		rootCmd.SetArgs([]string{"--completion=" + shell})
 		if err := rootCmd.Execute(); err != nil {
 			panic(err)
 		}

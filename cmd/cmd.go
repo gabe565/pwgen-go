@@ -1,12 +1,13 @@
 package cmd
 
 import (
-	"os"
+	"fmt"
+	"strings"
+	"text/template"
 
-	"github.com/gabe565/pwgen-go/cmd/template"
 	"github.com/gabe565/pwgen-go/internal/config"
+	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 )
 
 func New(version, commit string) *cobra.Command {
@@ -16,12 +17,15 @@ func New(version, commit string) *cobra.Command {
 		Long: `Generate passphrases using the EFF Diceware Wordlists.
 See https://www.eff.org/dice for details on the available wordlists.`,
 		Version: buildVersion(version, commit),
+		PreRunE: preRun,
+		RunE:    run,
 
 		DisableAutoGenTag: true,
 	}
 
 	cfg, _ := config.GetFilePretty()
 	defaultCfg := config.NewDefault()
+	registerCompletionFlag(cmd)
 	cmd.PersistentFlags().String("config", "", "Config file (default "+cfg+")")
 	_ = cmd.RegisterFlagCompletionFunc("config", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
@@ -31,21 +35,7 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 	_ = cmd.RegisterFlagCompletionFunc("wordlist", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		return []string{config.WordlistLong, config.WordlistShort1, config.WordlistShort2}, cobra.ShellCompDirectiveNoFileComp
 	})
-
-	template := template.New()
-	cmd.AddCommand(
-		template,
-	)
-
-	// default cmd if no cmd is given
-	cmd.InitDefaultVersionFlag()
-	subCmd, _, err := cmd.Find(os.Args[1:])
-	if err == nil && subCmd.Use == cmd.Use && cmd.Flags().Parse(os.Args[1:]) != pflag.ErrHelp {
-		if versionFlag, err := cmd.Flags().GetBool("version"); err == nil && !versionFlag {
-			args := append([]string{template.Use}, os.Args[1:]...)
-			cmd.SetArgs(args)
-		}
-	}
+	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Go template that generates a password")
 
 	return cmd
 }
@@ -55,4 +45,57 @@ func buildVersion(version, commit string) string {
 		version += " (" + commit + ")"
 	}
 	return version
+}
+
+func preRun(cmd *cobra.Command, args []string) error {
+	completionFlag, err := cmd.Flags().GetString(CompletionFlag)
+	if err != nil {
+		panic(err)
+	}
+	if completionFlag != "" {
+		return nil
+	}
+
+	conf, err := config.Load(cmd)
+	if err != nil {
+		return err
+	}
+
+	ctx := config.NewContext(cmd.Context(), conf)
+	cmd.SetContext(ctx)
+
+	return nil
+}
+
+func run(cmd *cobra.Command, args []string) error {
+	completionFlag, err := cmd.Flags().GetString(CompletionFlag)
+	if err != nil {
+		panic(err)
+	}
+	if completionFlag != "" {
+		return completion(cmd, args)
+	}
+
+	cmd.SilenceUsage = true
+
+	conf, ok := config.FromContext(cmd.Context())
+	if !ok {
+		return fmt.Errorf("missing config")
+	}
+
+	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(conf)).Parse(conf.Template)
+	if err != nil {
+		return fmt.Errorf("invalid format: %w", err)
+	}
+
+	var buf strings.Builder
+	for range conf.Count {
+		if err := tmpl.Execute(&buf, nil); err != nil {
+			return fmt.Errorf("template error: %w", err)
+		}
+		fmt.Println(buf.String())
+		buf.Reset()
+	}
+
+	return nil
 }
