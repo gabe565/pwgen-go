@@ -1,8 +1,8 @@
 package config
 
 type Config struct {
-	Count    int    `toml:"count" comment:"Number of passwords to generate."`
-	Template string `toml:"template" comment:"Template used to generate passwords."`
+	Count    int    `toml:"count" comment:"Number of passphrases to generate."`
+	Template string `toml:"template" comment:"Template used to generate passphrases."`
 }
 
 func NewDefault() *Config {

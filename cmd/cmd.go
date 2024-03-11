@@ -12,7 +12,7 @@ import (
 func New(version, commit string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "pwgen",
-		Short:   "Generate passwords",
+		Short:   "Generate passphrases",
 		Version: buildVersion(version, commit),
 
 		DisableAutoGenTag: true,
@@ -20,7 +20,7 @@ func New(version, commit string) *cobra.Command {
 
 	cfg, _ := config.GetFilePretty()
 	cmd.PersistentFlags().String("config", "", "Config file (default "+cfg+")")
-	cmd.PersistentFlags().IntP("count", "c", config.NewDefault().Count, "Number of passwords to generate")
+	cmd.PersistentFlags().IntP("count", "c", config.NewDefault().Count, "Number of passphrases to generate")
 
 	template := template.New()
 	cmd.AddCommand(

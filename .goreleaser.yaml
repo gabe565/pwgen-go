@@ -55,7 +55,7 @@ changelog:
       order: 999
 brews:
   - homepage: https://github.com/gabe565/pwgen-go
-    description: Command line password generator written in Go
+    description: Command line passphrase generator written in Go
     license: MIT
     repository:
       owner: gabe565
@@ -72,7 +72,7 @@ nfpms:
   - id: packages
     vendor: Gabe Cook
     homepage: https://github.com/gabe565/pwgen-go
-    description: Command line password generator written in Go
+    description: Command line passphrase generator written in Go
     license: MIT
     maintainer: Gabe Cook <gabe565@gmail.com>
     formats:
@@ -104,7 +104,7 @@ publishers:
 aurs:
   - name: pwgen-go-bin
     homepage: https://github.com/gabe565/pwgen-go
-    description: Command line password generator written in Go
+    description: Command line passphrase generator written in Go
     maintainers:
       - Gabe Cook <gabe565@gmail.com>
     license: MIT

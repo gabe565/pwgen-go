@@ -1,6 +1,6 @@
 # pwgen-go
 
-Command line password generator written in Go.
+Command line passphrase generator written in Go.
 
 The [EFF Long Wordlist](https://www.eff.org/dice) is embedded which includes 7776 words. See the [EFF's Deep Dive](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases) for more details on the benefits of this word list.
 
@@ -85,7 +85,7 @@ Download and run the [latest release binary](https://github.com/gabe565/pwgen-go
 </details>
 
 ## Usage
-Run `pwgen` for a list of generated passwords. The template can be customized with the `--template` (`-t`) flag, and the number of generated entries can be customized with `--count` (`-c`).  
+Run `pwgen` for a list of generated passphrases. The template can be customized with the `--template` (`-t`) flag, and the number of generated entries can be customized with `--count` (`-c`).  
 Also see the generated [docs](docs/pwgen.md).
 
 ### Example
@@ -105,7 +105,7 @@ Unlimited-Holland-Shaved3
 
 ## Templating
 
-Templated passwords are generated using Go's [text/template](https://pkg.go.dev/text/template) package.
+Templated passphrases are generated using Go's [text/template](https://pkg.go.dev/text/template) package.
 
 All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus some extras listed below.
 

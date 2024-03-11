@@ -13,12 +13,12 @@ import (
 func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "template",
-		Short:   "Generates passwords from a template (default)",
+		Short:   "Generates passphrases from a template (default)",
 		PreRunE: preRun,
 		RunE:    run,
 	}
 
-	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Go template that generates a password")
+	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Go template that generates a passphrase")
 
 	return cmd
 }

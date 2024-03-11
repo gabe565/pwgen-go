@@ -1,6 +1,6 @@
 ## pwgen template
 
-Generates passwords from a template (default)
+Generates passphrases from a template (default)
 
 ```
 pwgen template [flags]
@@ -10,17 +10,17 @@ pwgen template [flags]
 
 ```
   -h, --help              help for template
-  -t, --template string   Go template that generates a password (default "{{ wordsWithNumber 3 | join \"-\" | title }}")
+  -t, --template string   Go template that generates a passphrase (default "{{ wordsWithNumber 3 | join \"-\" | title }}")
 ```
 
 ### Options inherited from parent commands
 
 ```
       --config string   Config file (default $HOME/.config/pwgen-go/config.toml)
-  -c, --count int       Number of passwords to generate (default 10)
+  -c, --count int       Number of passphrases to generate (default 10)
 ```
 
 ### SEE ALSO
 
-* [pwgen](pwgen.md)	 - Generate passwords
+* [pwgen](pwgen.md)	 - Generate passphrases
 
