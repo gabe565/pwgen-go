@@ -100,3 +100,53 @@ Fundamental-Marcus-Mathematical6
 Reports-Sentence-Purchase2
 Unlimited-Holland-Shaved3
 ```
+
+## Templating
+
+Templated passwords are generated using Go's [text/template](https://pkg.go.dev/text/template) package.
+
+All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus some extras listed below.
+
+### Functions
+
+#### `word`
+
+Outputs a random word from the [wordlist](internal/wordlists/en.txt). For title case, the output can be piped to `title`.
+
+##### Examples
+- Lowercase:
+  ```gotemplate
+  {{ word }}
+  ```
+- Title case:
+  ```gotemplate
+  {{ title word }}
+  ```
+
+#### `words`
+
+Outputs a slice of random words from the [wordlist](internal/wordlists/en.txt). The output will be a slice, which can be joined using `join`. For title case, the output can be piped to `title`.
+
+##### Examples
+- Lowercase, joined with `-`:
+  ```gotemplate
+  {{ words 3 | join "-" }}
+  ```
+- Title case, joined with `-`:
+  ```gotemplate
+  {{ words 3 | join "-" | title }}
+  ```
+
+#### `number`, `num`
+
+Alias for [Sprig's `randNumeric` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). A random number will be generated with the number of digits determined by the parameter.
+
+##### Examples
+- Generate a number from 0-9:
+  ```gotemplate
+  {{ number 1 }}
+  ```
+- Generate a number from 10-99:
+  ```gotemplate
+  {{ number 2 }}
+  ```
