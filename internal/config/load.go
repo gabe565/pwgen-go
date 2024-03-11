@@ -19,6 +19,7 @@ import (
 var flagConfigTable = map[string]string{
 	"count":    "count",
 	"template": "template",
+	"wordlist": "wordlist",
 }
 
 func Load(cmd *cobra.Command) (*Config, error) {
@@ -94,6 +95,12 @@ func Load(cmd *cobra.Command) (*Config, error) {
 
 	if err := k.UnmarshalWithConf("", conf, koanf.UnmarshalConf{Tag: "toml"}); err != nil {
 		return nil, err
+	}
+
+	switch conf.Wordlist {
+	case WordlistLong, WordlistShort1, WordlistShort2:
+	default:
+		conf.Wordlist = WordlistLong
 	}
 
 	return conf, err

@@ -2,7 +2,7 @@
 
 Command line passphrase generator written in Go.
 
-The [EFF Long Wordlist](https://www.eff.org/dice) is embedded which includes 7776 words. See the [EFF's Deep Dive](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases) for more details on the benefits of this word list.
+The [EFF Diceware Wordlists](https://www.eff.org/dice) are embedded, with the long wordlist used by default. See the [EFF's Deep Dive](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases) for more details on the benefits of this word list.
 
 ## Installation
 

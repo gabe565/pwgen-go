@@ -16,8 +16,9 @@ pwgen template [flags]
 ### Options inherited from parent commands
 
 ```
-      --config string   Config file (default $HOME/.config/pwgen-go/config.toml)
-  -c, --count int       Number of passphrases to generate (default 10)
+      --config string     Config file (default $HOME/.config/pwgen-go/config.toml)
+  -c, --count int         Number of passphrases to generate (default 10)
+      --wordlist string   Wordlist to use (one of: long, short1, short2) (default "long")
 ```
 
 ### SEE ALSO

@@ -2,9 +2,12 @@
 
 package wordlist
 
-// EFF_Long is a wordlist intended for passphrases.
-//
-// Source: https://www.eff.org/dice
+/*
+EFF_Long is the default wordlist used for passphrases.
+It contains 7776 words and is designed for memorability and password strength.
+
+Source: https://www.eff.org/dice
+*/
 var EFF_Long = Wordlist{
 	"abacus",
 	"abdomen",

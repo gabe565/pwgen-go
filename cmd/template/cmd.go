@@ -43,7 +43,7 @@ func run(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("missing config")
 	}
 
-	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap()).Parse(conf.Template)
+	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(conf)).Parse(conf.Template)
 	if err != nil {
 		return fmt.Errorf("invalid format: %w", err)
 	}
