@@ -6,7 +6,7 @@ import (
 	"text/template"
 
 	"github.com/gabe565/pwgen-go/internal/config"
-	"github.com/gabe565/pwgen-go/internal/util"
+	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
 	"github.com/spf13/cobra"
 )
 
@@ -43,7 +43,7 @@ func run(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("missing config")
 	}
 
-	tmpl, err := template.New("").Funcs(util.TemplateFuncMap()).Parse(conf.Template)
+	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap()).Parse(conf.Template)
 	if err != nil {
 		return fmt.Errorf("invalid format: %w", err)
 	}

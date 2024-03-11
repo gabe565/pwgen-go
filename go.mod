@@ -4,6 +4,7 @@ go 1.22.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
+	github.com/dave/jennifer v1.7.0
 	github.com/knadh/koanf/providers/posflag v0.1.0
 	github.com/knadh/koanf/providers/rawbytes v0.1.0
 	github.com/knadh/koanf/providers/structs v0.1.0
