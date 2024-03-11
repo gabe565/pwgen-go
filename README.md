@@ -139,6 +139,15 @@ Outputs a slice of random words from the wordlist. The output will be a slice, w
   {{ words 3 | join "-" | title }}
   ```
 
+#### `wordsWithNumber`
+
+Behaves similarly to [`words`](#words), but will append a random number to one of the words.
+
+##### Examples
+```gotemplate
+{{ wordsWithNumber 3 | join "-" }}
+```
+
 #### `number`, `num`
 
 Alias for [Sprig's `randNumeric` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). A random number will be generated with the number of digits determined by the parameter.
