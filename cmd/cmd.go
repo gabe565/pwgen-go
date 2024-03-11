@@ -11,8 +11,10 @@ import (
 
 func New(version, commit string) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "pwgen",
-		Short:   "Generate passphrases",
+		Use:   "pwgen",
+		Short: "Generate passphrases",
+		Long: `Generate passphrases using the EFF Diceware Wordlists.
+See https://www.eff.org/dice for details on the available wordlists.`,
 		Version: buildVersion(version, commit),
 
 		DisableAutoGenTag: true,
