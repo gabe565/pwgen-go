@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"strings"
 
 	"github.com/gabe565/pwgen-go/internal/wordlists"
 )
@@ -13,12 +14,12 @@ func RandWord() (string, error) {
 	var line int
 	for line < 32 {
 		var err error
-		if line, err = CryptoRandn(wordlists.EnLines); err != nil {
+		if line, err = CryptoRandn(wordlists.EffLines); err != nil {
 			return "", err
 		}
 	}
 
-	return GetLine(bytes.NewReader(wordlists.En), line)
+	return GetLine(bytes.NewReader(wordlists.Eff), line)
 }
 
 func RandWords(n int) ([]string, error) {
@@ -39,7 +40,8 @@ func GetLine(r io.Reader, line int) (string, error) {
 	scanner := bufio.NewScanner(r)
 	for i := 0; scanner.Scan(); i += 1 {
 		if i == line {
-			return scanner.Text(), nil
+			split := strings.Split(scanner.Text(), "\t")
+			return split[1], nil
 		}
 	}
 	if err := scanner.Err(); err != nil {

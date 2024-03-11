@@ -2,6 +2,8 @@
 
 Command line password generator written in Go.
 
+The [EFF Long Wordlist](https://www.eff.org/dice) is embedded which includes 7776 words. See the [EFF's Deep Dive](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases) for more details on the benefits of this word list.
+
 ## Installation
 
 ### APT (Ubuntu, Debian)
@@ -111,7 +113,7 @@ All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus 
 
 #### `word`
 
-Outputs a random word from the [wordlist](internal/wordlists/en.txt). For title case, the output can be piped to `title`.
+Outputs a random word from the wordlist. For title case, the output can be piped to `title`.
 
 ##### Examples
 - Lowercase:
@@ -125,7 +127,7 @@ Outputs a random word from the [wordlist](internal/wordlists/en.txt). For title 
 
 #### `words`
 
-Outputs a slice of random words from the [wordlist](internal/wordlists/en.txt). The output will be a slice, which can be joined using `join`. For title case, the output can be piped to `title`.
+Outputs a slice of random words from the wordlist. The output will be a slice, which can be joined using `join`. For title case, the output can be piped to `title`.
 
 ##### Examples
 - Lowercase, joined with `-`:
