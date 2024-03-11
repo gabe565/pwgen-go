@@ -21,6 +21,9 @@ func New(version, commit string) *cobra.Command {
 	cfg, _ := config.GetFilePretty()
 	defaultCfg := config.NewDefault()
 	cmd.PersistentFlags().String("config", "", "Config file (default "+cfg+")")
+	_ = cmd.RegisterFlagCompletionFunc("config", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
+	})
 	cmd.PersistentFlags().IntP("count", "c", defaultCfg.Count, "Number of passphrases to generate")
 	cmd.PersistentFlags().String("wordlist", "long", "Wordlist to use (one of: long, short1, short2)")
 	_ = cmd.RegisterFlagCompletionFunc("wordlist", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
