@@ -17,7 +17,7 @@ func (w Wordlist) RandWord() string {
 
 func (w Wordlist) RandWords(n int) []string {
 	result := make([]string, 0, n)
-	for i := 0; i < n; i += 1 {
+	for range n {
 		result = append(result, w.RandWord())
 	}
 	return result

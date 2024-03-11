@@ -49,7 +49,7 @@ func run(cmd *cobra.Command, args []string) error {
 	}
 
 	var buf strings.Builder
-	for i := 0; i < conf.Count; i += 1 {
+	for range conf.Count {
 		if err := tmpl.Execute(&buf, nil); err != nil {
 			return fmt.Errorf("template error: %w", err)
 		}
