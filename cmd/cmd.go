@@ -29,14 +29,18 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 	defaultCfg := config.NewDefault()
 	registerCompletionFlag(cmd)
 	cmd.PersistentFlags().String("config", "", "Config file (default "+cfg+")")
-	_ = cmd.RegisterFlagCompletionFunc("config", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+	if err := cmd.RegisterFlagCompletionFunc("config", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
-	})
+	}); err != nil {
+		panic(err)
+	}
 	cmd.PersistentFlags().IntP("count", "c", defaultCfg.Count, "Number of passphrases to generate")
 	cmd.PersistentFlags().String("wordlist", "long", "Wordlist to use (one of: long, short1, short2)")
-	_ = cmd.RegisterFlagCompletionFunc("wordlist", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+	if err := cmd.RegisterFlagCompletionFunc("wordlist", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{config.WordlistLong, config.WordlistShort1, config.WordlistShort2}, cobra.ShellCompDirectiveNoFileComp
-	})
+	}); err != nil {
+		panic(err)
+	}
 	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Go template that generates a password")
 
 	return cmd
