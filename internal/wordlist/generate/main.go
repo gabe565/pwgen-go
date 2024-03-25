@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	. "github.com/dave/jennifer/jen"
+	. "github.com/dave/jennifer/jen" //nolint:revive,stylecheck
 )
 
 func main() {
@@ -34,6 +34,7 @@ func main() {
 	}
 
 	for _, config := range configs {
+		//nolint:noctx
 		resp, err := http.Get(config.url)
 		if err != nil {
 			panic(err)

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 	"text/template"
@@ -28,12 +29,12 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 	defaultCfg := config.NewDefault()
 	registerCompletionFlag(cmd)
 	cmd.PersistentFlags().String("config", "", "Config file (default "+cfg+")")
-	_ = cmd.RegisterFlagCompletionFunc("config", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+	_ = cmd.RegisterFlagCompletionFunc("config", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
 	})
 	cmd.PersistentFlags().IntP("count", "c", defaultCfg.Count, "Number of passphrases to generate")
 	cmd.PersistentFlags().String("wordlist", "long", "Wordlist to use (one of: long, short1, short2)")
-	_ = cmd.RegisterFlagCompletionFunc("wordlist", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+	_ = cmd.RegisterFlagCompletionFunc("wordlist", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{config.WordlistLong, config.WordlistShort1, config.WordlistShort2}, cobra.ShellCompDirectiveNoFileComp
 	})
 	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Go template that generates a password")
@@ -48,7 +49,7 @@ func buildVersion(version, commit string) string {
 	return version
 }
 
-func preRun(cmd *cobra.Command, args []string) error {
+func preRun(cmd *cobra.Command, _ []string) error {
 	completionFlag, err := cmd.Flags().GetString(CompletionFlag)
 	if err != nil {
 		panic(err)
@@ -68,6 +69,11 @@ func preRun(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+var (
+	ErrMissingConfig = errors.New("missing config")
+	ErrInvalidFormat = errors.New("invalid format")
+)
+
 func run(cmd *cobra.Command, args []string) error {
 	completionFlag, err := cmd.Flags().GetString(CompletionFlag)
 	if err != nil {
@@ -81,12 +87,12 @@ func run(cmd *cobra.Command, args []string) error {
 
 	conf, ok := config.FromContext(cmd.Context())
 	if !ok {
-		return fmt.Errorf("missing config")
+		return ErrMissingConfig
 	}
 
 	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(conf)).Parse(conf.Template)
 	if err != nil {
-		return fmt.Errorf("invalid format: %w", err)
+		return ErrInvalidFormat
 	}
 
 	var buf strings.Builder
@@ -94,6 +100,7 @@ func run(cmd *cobra.Command, args []string) error {
 		if err := tmpl.Execute(&buf, nil); err != nil {
 			return fmt.Errorf("template error: %w", err)
 		}
+		//nolint:forbidigo
 		fmt.Println(buf.String())
 		buf.Reset()
 	}

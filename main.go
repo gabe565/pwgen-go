@@ -7,6 +7,7 @@ import (
 	"github.com/gabe565/pwgen-go/cmd"
 )
 
+//nolint:gochecknoglobals
 var (
 	version = "beta"
 	commit  = ""

@@ -16,10 +16,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var flagConfigTable = map[string]string{
-	"count":    "count",
-	"template": "template",
-	"wordlist": "wordlist",
+func flagTable() map[string]string {
+	return map[string]string{
+		"count":    "count",
+		"template": "template",
+		"wordlist": "wordlist",
+	}
 }
 
 func Load(cmd *cobra.Command) (*Config, error) {
@@ -81,8 +83,9 @@ func Load(cmd *cobra.Command) (*Config, error) {
 	}
 
 	// Load flags
+	flagTable := flagTable()
 	err = k.Load(posflag.ProviderWithValue(cmd.Flags(), ".", k, func(key string, value string) (string, any) {
-		if k, ok := flagConfigTable[key]; ok {
+		if k, ok := flagTable[key]; ok {
 			key = k
 		} else {
 			key = ""

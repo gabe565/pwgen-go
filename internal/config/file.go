@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-var configDir = "pwgen-go"
+const configDir = "pwgen-go"
 
 func GetDir() (string, error) {
 	switch runtime.GOOS {
