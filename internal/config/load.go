@@ -7,6 +7,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/knadh/koanf/providers/posflag"
 	"github.com/knadh/koanf/providers/rawbytes"
@@ -98,6 +99,10 @@ func Load(cmd *cobra.Command) (*Config, error) {
 
 	if err := k.UnmarshalWithConf("", conf, koanf.UnmarshalConf{Tag: "toml"}); err != nil {
 		return nil, err
+	}
+
+	if !strings.HasSuffix(conf.Template, "\n") {
+		conf.Template += "\n"
 	}
 
 	switch conf.Wordlist {

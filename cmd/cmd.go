@@ -1,9 +1,10 @@
 package cmd
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
-	"strings"
+	"io"
 	"text/template"
 
 	"github.com/gabe565/pwgen-go/internal/config"
@@ -109,14 +110,12 @@ func run(cmd *cobra.Command, args []string) error {
 		return ErrInvalidFormat
 	}
 
-	var buf strings.Builder
+	var buf bytes.Buffer
 	for range conf.Count {
 		if err := tmpl.Execute(&buf, nil); err != nil {
 			return fmt.Errorf("template error: %w", err)
 		}
-		//nolint:forbidigo
-		fmt.Println(buf.String())
-		buf.Reset()
+		_, _ = io.Copy(cmd.OutOrStdout(), &buf)
 	}
 
 	return nil
