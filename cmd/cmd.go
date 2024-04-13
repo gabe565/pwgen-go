@@ -13,6 +13,8 @@ import (
 )
 
 func New(version, commit string) *cobra.Command {
+	tmplSubcommand := NewTemplates()
+
 	cmd := &cobra.Command{
 		Use:   "pwgen",
 		Short: "Generate passphrases",
@@ -22,34 +24,35 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		PreRunE: preRun,
 		RunE:    run,
 
-		ValidArgsFunction: cobra.NoFileCompletions,
+		ValidArgsFunction: func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+			return []string{tmplSubcommand.Name() + "\t" + tmplSubcommand.Short}, cobra.ShellCompDirectiveNoFileComp
+		},
 		DisableAutoGenTag: true,
 	}
+	cmd.AddCommand(tmplSubcommand)
 
 	cfg, _ := config.GetFilePretty()
 	defaultCfg := config.NewDefault()
 
-	registerCompletionFlag(cmd)
-
-	cmd.PersistentFlags().String("config", "", "Config file (default "+cfg+")")
+	cmd.Flags().String("config", "", "Config file (default "+cfg+")")
 	if err := cmd.RegisterFlagCompletionFunc("config", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
 	}); err != nil {
 		panic(err)
 	}
-	cmd.PersistentFlags().IntP("count", "c", defaultCfg.Count, "Number of passphrases to generate")
+	cmd.Flags().IntP("count", "c", defaultCfg.Count, "Number of passphrases to generate")
 	if err := cmd.RegisterFlagCompletionFunc("count", cobra.NoFileCompletions); err != nil {
 		panic(err)
 	}
 
-	cmd.PersistentFlags().String("wordlist", "long", "Wordlist to use (one of: long, short1, short2)")
+	cmd.Flags().String("wordlist", "long", "Wordlist to use (one of: long, short1, short2)")
 	if err := cmd.RegisterFlagCompletionFunc("wordlist", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{config.WordlistLong, config.WordlistShort1, config.WordlistShort2}, cobra.ShellCompDirectiveNoFileComp
 	}); err != nil {
 		panic(err)
 	}
 
-	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Template used to generate passphrases. Either a Go template or a named template.")
+	cmd.Flags().StringP("template", "t", config.NewDefault().Template, `Template used to generate passphrases. Either a Go template or a named template (see "pwgen templates").`)
 	if err := cmd.RegisterFlagCompletionFunc("template", func(cmd *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		conf, err := config.Load(cmd, false)
 		if err != nil {
@@ -82,14 +85,6 @@ func buildVersion(version, commit string) string {
 }
 
 func preRun(cmd *cobra.Command, _ []string) error {
-	completionFlag, err := cmd.Flags().GetString(CompletionFlag)
-	if err != nil {
-		panic(err)
-	}
-	if completionFlag != "" {
-		return nil
-	}
-
 	conf, err := config.Load(cmd, true)
 	if err != nil {
 		return err
@@ -106,15 +101,7 @@ var (
 	ErrInvalidFormat = errors.New("invalid format")
 )
 
-func run(cmd *cobra.Command, args []string) error {
-	completionFlag, err := cmd.Flags().GetString(CompletionFlag)
-	if err != nil {
-		panic(err)
-	}
-	if completionFlag != "" {
-		return completion(cmd, args)
-	}
-
+func run(cmd *cobra.Command, _ []string) error {
 	cmd.SilenceUsage = true
 
 	conf, ok := config.FromContext(cmd.Context())
