@@ -14,11 +14,10 @@ pwgen [flags]
 ### Options
 
 ```
-      --completion string   Output command-line completion code for the specified shell. Can be 'bash', 'zsh', 'fish', or 'powershell'.
-      --config string       Config file (default $HOME/.config/pwgen-go/config.toml)
-  -c, --count int           Number of passphrases to generate (default 10)
-  -h, --help                help for pwgen
-  -t, --template string     Template used to generate passphrases. Either a Go template or a named template. (default "diceware-3")
-      --wordlist string     Wordlist to use (one of: long, short1, short2) (default "long")
+      --config string     Config file (default $HOME/.config/pwgen-go/config.toml)
+  -c, --count int         Number of passphrases to generate (default 10)
+  -h, --help              help for pwgen
+  -t, --template string   Template used to generate passphrases. Either a Go template or a named template (see "pwgen templates"). (default "diceware-3")
+      --wordlist string   Wordlist to use (one of: long, short1, short2) (default "long")
 ```
 
