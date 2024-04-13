@@ -1,6 +1,20 @@
 # Number of passphrases to generate.
 count = 10
-# Template used to generate passphrases.
-template = '{{ wordsWithNumber 3 | join "-" | title }}'
+# Default template used to generate passphrases.
+template = 'diceware-3'
 # Wordlist to use. (one of: long, short1, short2)
 wordlist = 'long'
+
+# Named templates
+[templates]
+alpha-16 = '{{ randAlpha 16 }}'
+alpha-32 = '{{ randAlpha 32 }}'
+alpha-64 = '{{ randAlpha 64 }}'
+ascii-16 = '{{ randAscii 16 }}'
+ascii-32 = '{{ randAscii 32 }}'
+ascii-64 = '{{ randAscii 64 }}'
+diceware-3 = '{{ wordsWithNumber 3 | join "-" | title }}'
+diceware-5 = '{{ wordsWithNumber 5 | join "-" | title }}'
+diceware-6 = '{{ wordsWithNumber 6 | join "-" | title }}'
+pin-4 = '{{ num 4 }}'
+pin-6 = '{{ num 6 }}'

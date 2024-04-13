@@ -49,8 +49,25 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		panic(err)
 	}
 
-	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Go template that generates a password")
-	if err := cmd.RegisterFlagCompletionFunc("template", cobra.NoFileCompletions); err != nil {
+	cmd.Flags().StringP("template", "t", config.NewDefault().Template, "Template used to generate passphrases. Either a Go template or a named template.")
+	if err := cmd.RegisterFlagCompletionFunc("template", func(cmd *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+		conf, err := config.Load(cmd, false)
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		named := make([]string, 0, len(conf.Templates))
+		funcMap := pwgen_template.FuncMap(conf)
+		var buf bytes.Buffer
+		for k, v := range conf.Templates {
+			if tmpl, err := template.New("").Funcs(funcMap).Parse(v); err == nil {
+				_ = tmpl.Execute(&buf, nil)
+			}
+			named = append(named, k+"\texample: "+buf.String())
+			buf.Reset()
+		}
+		return named, cobra.ShellCompDirectiveNoFileComp
+	}); err != nil {
 		panic(err)
 	}
 

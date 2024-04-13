@@ -103,6 +103,12 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 		return nil, err
 	}
 
+	for k, v := range conf.Templates {
+		if conf.Template == k {
+			conf.Template = v
+		}
+	}
+
 	if !strings.HasSuffix(conf.Template, "\n") {
 		conf.Template += "\n"
 	}

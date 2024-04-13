@@ -18,7 +18,7 @@ pwgen [flags]
       --config string       Config file (default $HOME/.config/pwgen-go/config.toml)
   -c, --count int           Number of passphrases to generate (default 10)
   -h, --help                help for pwgen
-  -t, --template string     Go template that generates a password (default "{{ wordsWithNumber 3 | join \"-\" | title }}")
+  -t, --template string     Template used to generate passphrases. Either a Go template or a named template. (default "diceware-3")
       --wordlist string     Wordlist to use (one of: long, short1, short2) (default "long")
 ```
 
