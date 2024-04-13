@@ -25,7 +25,7 @@ func flagTable() map[string]string {
 	}
 }
 
-func Load(cmd *cobra.Command) (*Config, error) {
+func Load(cmd *cobra.Command, save bool) (*Config, error) {
 	k := koanf.New(".")
 	conf := NewDefault()
 
@@ -62,24 +62,26 @@ func Load(cmd *cobra.Command) (*Config, error) {
 		return nil, err
 	}
 
-	if err := k.UnmarshalWithConf("", conf, koanf.UnmarshalConf{Tag: "toml"}); err != nil {
-		return nil, err
-	}
-
-	newCfg, err := toml.Marshal(conf)
-	if err != nil {
-		return nil, err
-	}
-
-	if !bytes.Equal(cfgContents, newCfg) {
-		if cfgNotExists {
-			if err := os.MkdirAll(filepath.Dir(cfgFile), 0o777); err != nil {
-				return nil, err
-			}
+	if save {
+		if err := k.UnmarshalWithConf("", conf, koanf.UnmarshalConf{Tag: "toml"}); err != nil {
+			return nil, err
 		}
 
-		if err := os.WriteFile(cfgFile, newCfg, 0o666); err != nil {
+		newCfg, err := toml.Marshal(conf)
+		if err != nil {
 			return nil, err
+		}
+
+		if !bytes.Equal(cfgContents, newCfg) {
+			if cfgNotExists {
+				if err := os.MkdirAll(filepath.Dir(cfgFile), 0o777); err != nil {
+					return nil, err
+				}
+			}
+
+			if err := os.WriteFile(cfgFile, newCfg, 0o666); err != nil {
+				return nil, err
+			}
 		}
 	}
 

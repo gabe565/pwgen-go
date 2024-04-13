@@ -73,7 +73,7 @@ func preRun(cmd *cobra.Command, _ []string) error {
 		return nil
 	}
 
-	conf, err := config.Load(cmd)
+	conf, err := config.Load(cmd, true)
 	if err != nil {
 		return err
 	}
