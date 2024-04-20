@@ -13,7 +13,7 @@ import (
 )
 
 func New(version, commit string) *cobra.Command {
-	tmplSubcommand := NewTemplates()
+	tmplSubcommand := NewTemplates(FormatText)
 
 	cmd := &cobra.Command{
 		Use:   "pwgen",

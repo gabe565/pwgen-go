@@ -7,7 +7,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewTemplates() *cobra.Command {
+type Format uint8
+
+const (
+	FormatText Format = iota
+	FormatMarkdown
+)
+
+func NewTemplates(format Format) *cobra.Command {
 	conf := config.NewDefault()
 
 	t := table.NewWriter()
@@ -22,19 +29,33 @@ func NewTemplates() *cobra.Command {
 
 	t.AppendHeader(table.Row{"Name", "Template"})
 	for k, v := range conf.Templates {
-		t.AppendRow(table.Row{k, v})
+		switch format {
+		case FormatText:
+			t.AppendRow(table.Row{k, v})
+		case FormatMarkdown:
+			t.AppendRow(table.Row{"`" + k + "`", "`" + v + "`"})
+		}
 	}
 	t.SortBy([]table.SortBy{{Number: 1}})
 
-	cmd := &cobra.Command{
-		Use:   "templates",
-		Short: "Default named template reference",
-		Long: `The --template flag can be a raw Go template, or it can be a named template.
-
-Default Named Templates:
-` + t.Render(),
-
-		ValidArgsFunction: cobra.NoFileCompletions,
+	switch format {
+	case FormatText:
+		return &cobra.Command{
+			Use:   "templates",
+			Short: "Default named template reference",
+			Long: "The --template flag can be a raw Go template, or it can be a named template.\n\n" +
+				"Default Named Templates:\n" + t.Render(),
+			ValidArgsFunction: cobra.NoFileCompletions,
+		}
+	case FormatMarkdown:
+		return &cobra.Command{
+			Use:   "templates",
+			Short: "Default named template reference",
+			Long: "The `--template` flag can be a raw Go template, or it can be a named template.\n\n" +
+				"## Default Named Templates\n\n" + t.RenderMarkdown(),
+			ValidArgsFunction: cobra.NoFileCompletions,
+		}
+	default:
+		panic("invalid format")
 	}
-	return cmd
 }

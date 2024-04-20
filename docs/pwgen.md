@@ -21,3 +21,5 @@ pwgen [flags]
       --wordlist string   Wordlist to use (one of: long, short1, short2) (default "long")
 ```
 
+### SEE ALSO
+* [pwgen templates](pwgen_templates.md)  - Default named template reference

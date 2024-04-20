@@ -1,32 +1,39 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/gabe565/pwgen-go/cmd"
 	"github.com/spf13/cobra/doc"
 )
 
 func main() {
-	var err error
 	output := "./docs"
 
-	err = os.RemoveAll(output)
-	if err != nil {
-		log.Fatal(fmt.Errorf("failed to remove existing dia: %w", err))
+	if err := os.RemoveAll(output); err != nil {
+		panic(err)
+	}
+	if err := os.MkdirAll(output, 0o755); err != nil {
+		panic(err)
 	}
 
-	err = os.MkdirAll(output, 0o755)
-	if err != nil {
-		log.Fatal(fmt.Errorf("failed to mkdir: %w", err))
+	var buf bytes.Buffer
+	root := cmd.New("", "")
+	tmpl := cmd.NewTemplates(cmd.FormatMarkdown)
+	if err := doc.GenMarkdown(root, &buf); err != nil {
+		panic(err)
+	}
+	buf.WriteString(fmt.Sprintf("### SEE ALSO\n* [%s %s](%s_%s.md)  - %s\n", root.Name(), tmpl.Name(), root.Name(), tmpl.Name(), tmpl.Short))
+	if err := os.WriteFile(filepath.Join(output, "pwgen.md"), buf.Bytes(), 0o644); err != nil {
+		panic(err)
 	}
 
-	rootCmd := cmd.New("", "")
-
-	err = doc.GenMarkdownTree(rootCmd, output)
-	if err != nil {
-		log.Fatal(fmt.Errorf("failed to generate markdown: %w", err))
+	buf.Reset()
+	buf.WriteString(fmt.Sprintf("# %s\n\n%s\n\n### SEE ALSO\n* [%s](%s.md)  - %s", tmpl.Name(), tmpl.Long, root.Name(), root.Name(), root.Short))
+	if err := os.WriteFile(filepath.Join(output, "pwgen_templates.md"), buf.Bytes(), 0o644); err != nil {
+		panic(err)
 	}
 }
