@@ -1,4 +1,7 @@
 # pwgen-go
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/gabe565/pwgen-go)](https://github.com/gabe565/pwgen-go/releases)
+[![Build](https://github.com/gabe565/pwgen-go/actions/workflows/build.yaml/badge.svg)](https://github.com/gabe565/pwgen-go/actions/workflows/build.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gabe565/pwgen-go)](https://goreportcard.com/report/github.com/gabe565/pwgen-go)
 
 Command line passphrase generator written in Go.
 
