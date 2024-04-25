@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"strconv"
+
 	"github.com/gabe565/pwgen-go/internal/config"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
@@ -14,7 +16,7 @@ const (
 	FormatMarkdown
 )
 
-func NewTemplates(format Format) *cobra.Command {
+func NewProfiles(format Format) *cobra.Command {
 	conf := config.NewDefault()
 
 	t := table.NewWriter()
@@ -28,12 +30,13 @@ func NewTemplates(format Format) *cobra.Command {
 	t.SetStyle(style)
 
 	t.AppendHeader(table.Row{"Name", "Template"})
-	for k, v := range conf.Templates {
+	for k, v := range conf.Profiles {
+		name := k + ":" + strconv.Itoa(v.Param)
 		switch format {
 		case FormatText:
-			t.AppendRow(table.Row{k, v})
+			t.AppendRow(table.Row{name, v.Template})
 		case FormatMarkdown:
-			t.AppendRow(table.Row{"`" + k + "`", "`" + v + "`"})
+			t.AppendRow(table.Row{"`" + name + "`", "`" + v.Template + "`"})
 		}
 	}
 	t.SortBy([]table.SortBy{{Number: 1}})
@@ -41,18 +44,18 @@ func NewTemplates(format Format) *cobra.Command {
 	switch format {
 	case FormatText:
 		return &cobra.Command{
-			Use:   "templates",
-			Short: "Default named template reference",
-			Long: "The --template flag can be a raw Go template, or it can be a named template.\n\n" +
-				"Default Named Templates:\n" + t.Render(),
+			Use:   "profiles",
+			Short: "Default profile reference",
+			Long: "The --profile flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
+				"Default Profiles:\n" + t.Render(),
 			ValidArgsFunction: cobra.NoFileCompletions,
 		}
 	case FormatMarkdown:
 		return &cobra.Command{
-			Use:   "templates",
-			Short: "Default named template reference",
-			Long: "The `--template` flag can be a raw Go template, or it can be a named template.\n\n" +
-				"## Default Named Templates\n\n" + t.RenderMarkdown(),
+			Use:   "profiles",
+			Short: "Default profile reference",
+			Long: "The `--profile` flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
+				"## Default Profiles\n\n" + t.RenderMarkdown(),
 			ValidArgsFunction: cobra.NoFileCompletions,
 		}
 	default:

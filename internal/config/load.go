@@ -5,6 +5,7 @@ package config
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,8 +23,11 @@ func flagTable() map[string]string {
 		"count":    "count",
 		"template": "template",
 		"wordlist": "wordlist",
+		"profile":  "profile",
 	}
 }
+
+var ErrProfileNotFound = errors.New("profile not found")
 
 func Load(cmd *cobra.Command, save bool) (*Config, error) {
 	k := koanf.New(".")
@@ -103,9 +107,16 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 		return nil, err
 	}
 
-	for k, v := range conf.Templates {
-		if conf.Template == k {
-			conf.Template = v
+	if conf.Profile.Name != "" && (conf.Template == "" || cmd.Flags().Lookup("profile").Changed && !cmd.Flags().Lookup("template").Changed) {
+		profile, ok := conf.Profiles[conf.Profile.Name]
+		if !ok {
+			return nil, fmt.Errorf("%w: %s", ErrProfileNotFound, conf.Profile.Name)
+		}
+		conf.Template = profile.Template
+		if conf.Profile.Param != 0 {
+			conf.Param = conf.Profile.Param
+		} else {
+			conf.Param = profile.Param
 		}
 	}
 

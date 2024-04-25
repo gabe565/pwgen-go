@@ -22,7 +22,7 @@ func main() {
 
 	var buf bytes.Buffer
 	root := cmd.New("", "")
-	tmpl := cmd.NewTemplates(cmd.FormatMarkdown)
+	tmpl := cmd.NewProfiles(cmd.FormatMarkdown)
 	if err := doc.GenMarkdown(root, &buf); err != nil {
 		panic(err)
 	}
@@ -33,7 +33,7 @@ func main() {
 
 	buf.Reset()
 	buf.WriteString(fmt.Sprintf("# %s\n\n%s\n\n### SEE ALSO\n* [%s](%s.md)  - %s", tmpl.Name(), tmpl.Long, root.Name(), root.Name(), root.Short))
-	if err := os.WriteFile(filepath.Join(output, "pwgen_templates.md"), buf.Bytes(), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(output, "pwgen_profiles.md"), buf.Bytes(), 0o644); err != nil {
 		panic(err)
 	}
 }

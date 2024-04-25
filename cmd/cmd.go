@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strconv"
+	"strings"
 	"text/template"
 
 	"github.com/gabe565/pwgen-go/internal/config"
@@ -13,7 +15,7 @@ import (
 )
 
 func New(version, commit string) *cobra.Command {
-	tmplSubcommand := NewTemplates(FormatText)
+	tmplSubcommand := NewProfiles(FormatText)
 
 	cmd := &cobra.Command{
 		Use:   "pwgen",
@@ -50,24 +52,38 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		panic(err)
 	}
 
-	cmd.Flags().StringP("template", "t", config.NewDefault().Template, `Template used to generate passphrases. Either a Go template or a named template (see "pwgen templates").`)
-	if err := cmd.RegisterFlagCompletionFunc("template", func(cmd *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+	cmd.Flags().StringP("template", "t", config.NewDefault().Template, `Template used to generate passphrases. If set, overrides the current profile.`)
+	if err := cmd.RegisterFlagCompletionFunc("template", cobra.NoFileCompletions); err != nil {
+		panic(err)
+	}
+
+	cmd.Flags().StringP("profile", "p", config.NewDefault().Template, `Generates passphrases using a preconfigured profile and an optional parameter. (see "pwgen profiles")`)
+	if err := cmd.RegisterFlagCompletionFunc("profile", func(cmd *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		conf, err := config.Load(cmd, false)
 		if err != nil {
 			return nil, cobra.ShellCompDirectiveError
 		}
 
-		named := make([]string, 0, len(conf.Templates))
+		named := make([]string, 0, len(conf.Profiles))
 		funcMap := pwgen_template.FuncMap(conf)
 		var buf bytes.Buffer
-		for k, v := range conf.Templates {
-			if tmpl, err := template.New("").Funcs(funcMap).Parse(v); err == nil {
-				_ = tmpl.Execute(&buf, nil)
+		var longest int
+		for k, v := range conf.Profiles {
+			name := k + ":" + strconv.Itoa(v.Param)
+			if longest < len(name) {
+				longest = len(name)
 			}
-			named = append(named, k+"\texample: "+buf.String())
+		}
+		for k, v := range conf.Profiles {
+			if tmpl, err := template.New("").Funcs(funcMap).Parse(v.Template); err == nil {
+				_ = tmpl.Execute(&buf, v.Param)
+			}
+			name := k + ":" + strconv.Itoa(v.Param)
+			pad := strings.Repeat(" ", longest-len(name))
+			named = append(named, fmt.Sprintf("%s:\t%s%s -> %s", k, name, pad, buf.String()))
 			buf.Reset()
 		}
-		return named, cobra.ShellCompDirectiveNoFileComp
+		return named, cobra.ShellCompDirectiveNoFileComp | cobra.ShellCompDirectiveNoSpace
 	}); err != nil {
 		panic(err)
 	}
@@ -114,7 +130,7 @@ func run(cmd *cobra.Command, _ []string) error {
 
 	var buf bytes.Buffer
 	for range conf.Count {
-		if err := tmpl.Execute(&buf, nil); err != nil {
+		if err := tmpl.Execute(&buf, conf.Param); err != nil {
 			return fmt.Errorf("template error: %w", err)
 		}
 		_, _ = io.Copy(cmd.OutOrStdout(), &buf)

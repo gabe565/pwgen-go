@@ -17,9 +17,10 @@ pwgen [flags]
       --config string     Config file (default $HOME/.config/pwgen-go/config.toml)
   -c, --count int         Number of passphrases to generate (default 10)
   -h, --help              help for pwgen
-  -t, --template string   Template used to generate passphrases. Either a Go template or a named template (see "pwgen templates"). (default "diceware-3")
+  -p, --profile string    Generates passphrases using a preconfigured profile and an optional parameter. (see "pwgen profiles")
+  -t, --template string   Template used to generate passphrases. If set, overrides the current profile.
       --wordlist string   Wordlist to use (one of: long, short1, short2) (default "long")
 ```
 
 ### SEE ALSO
-* [pwgen templates](pwgen_templates.md)  - Default named template reference
+* [pwgen profiles](pwgen_profiles.md)  - Default profile reference
