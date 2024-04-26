@@ -10,19 +10,19 @@ template = ''
 # Preconfigured profiles and default parameters.
 [profiles]
 [profiles.alpha]
-template = '{{ randAlpha . }}'
+template = '{{ alpha . }}'
 param = 32
 
 [profiles.alphanum]
-template = '{{ randAlphaNum . }}'
+template = '{{ alphaNum . }}'
 param = 32
 
 [profiles.ascii]
-template = '{{ randAscii . }}'
+template = '{{ ascii . }}'
 param = 32
 
 [profiles.diceware]
-template = '{{ wordsWithNumber . | join "-" | title }}'
+template = '{{ wordsWithNum . | join "-" | title }}'
 param = 4
 
 [profiles.pin]

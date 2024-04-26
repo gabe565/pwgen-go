@@ -32,6 +32,10 @@ func FuncMap(conf *config.Config) template.FuncMap {
 
 	funcs["number"] = funcs["randNumeric"]
 	funcs["num"] = funcs["randNumeric"]
+	funcs["numeric"] = funcs["randNumeric"]
+	funcs["alpha"] = funcs["randAlpha"]
+	funcs["alphaNum"] = funcs["randAlphaNum"]
+	funcs["ascii"] = funcs["randAscii"]
 
 	funcs["shuffle"] = rand.ShuffleSlice[any]
 

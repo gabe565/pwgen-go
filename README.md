@@ -151,7 +151,7 @@ Outputs a slice of random words from the wordlist. The output will be a slice, w
   {{ words 3 | join "-" | title }}
   ```
 
-#### `wordsWithNumber`
+#### `wordsWithNum`, `wordsWithNumber`
 
 Behaves similarly to [`words`](#words), but will append a random number to one of the words.
 
@@ -160,16 +160,46 @@ Behaves similarly to [`words`](#words), but will append a random number to one o
 {{ wordsWithNumber 3 | join "-" }}
 ```
 
-#### `number`, `num`
+#### `num`, `number`, `numeric`
 
 Alias for [Sprig's `randNumeric` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). A random number will be generated with the number of digits determined by the parameter.
 
 ##### Examples
 - Generate a number from 0-9:
   ```gotemplate
-  {{ number 1 }}
+  {{ num 1 }}
   ```
 - Generate a number from 10-99:
   ```gotemplate
-  {{ number 2 }}
+  {{ num 2 }}
+  ```
+
+#### `alpha`
+
+Alias for [Sprig's `randAlpha` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters will be generated with the length determined by the parameter.
+
+##### Examples
+- Generate a random string of letters:
+  ```gotemplate
+  {{ alpha 32 }}
+  ```
+
+#### `alphaNum`
+
+Alias for [Sprig's `randAlphaNum` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters and numbers will be generated with the length determined by the parameter.
+
+##### Examples
+- Generate a random string of letters and numbers:
+  ```gotemplate
+  {{ alphaNum 32 }}
+  ```
+
+#### `ascii`
+
+Alias for [Sprig's `randAscii` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters, numbers, and symbols will be generated with the length determined by the parameter.
+
+##### Examples
+- Generate a random string of letters, numbers, and symbols:
+  ```gotemplate
+  {{ ascii 32 }}
   ```

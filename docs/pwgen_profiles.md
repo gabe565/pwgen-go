@@ -6,10 +6,10 @@ The `--profile` flag lets you use preconfigured templates with an optional colon
 
 | Name | Template |
 | --- | --- |
-| `alpha:32` | `{{ randAlpha . }}` |
-| `alphanum:32` | `{{ randAlphaNum . }}` |
-| `ascii:32` | `{{ randAscii . }}` |
-| `diceware:4` | `{{ wordsWithNumber . \| join "-" \| title }}` |
+| `alpha:32` | `{{ alpha . }}` |
+| `alphanum:32` | `{{ alphaNum . }}` |
+| `ascii:32` | `{{ ascii . }}` |
+| `diceware:4` | `{{ wordsWithNum . \| join "-" \| title }}` |
 | `pin:6` | `{{ num . }}` |
 | `words:4` | `{{ words . \| join " " }}` |
 
