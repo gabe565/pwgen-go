@@ -113,6 +113,7 @@ func preRun(cmd *cobra.Command, _ []string) error {
 var (
 	ErrMissingConfig = errors.New("missing config")
 	ErrInvalidFormat = errors.New("invalid format")
+	ErrTemplate      = errors.New("template error")
 )
 
 func run(cmd *cobra.Command, _ []string) error {
@@ -125,13 +126,13 @@ func run(cmd *cobra.Command, _ []string) error {
 
 	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(conf)).Parse(conf.Template)
 	if err != nil {
-		return ErrInvalidFormat
+		return fmt.Errorf("%w: %w", ErrInvalidFormat, err)
 	}
 
 	var buf bytes.Buffer
 	for range conf.Count {
 		if err := tmpl.Execute(&buf, conf.Param); err != nil {
-			return fmt.Errorf("template error: %w", err)
+			return fmt.Errorf("%w: %w", ErrTemplate, err)
 		}
 		_, _ = io.Copy(cmd.OutOrStdout(), &buf)
 	}
