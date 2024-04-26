@@ -131,6 +131,7 @@ All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus 
 - [`alphaNum`](#alphaNum)
 - [`ascii`](#ascii)
 - [`binary`](#binary)
+- [`shuffle`](#shuffle)
 
 #### `word`
 
@@ -221,4 +222,14 @@ Random binary data will be generated with number of bytes determined by the para
 - Generate a random base64 string with 32 bytes of data:
   ```gotemplate
   {{ binary 32 | b64enc }}
+  ```
+
+#### `shuffle`
+
+Randomly shuffles a slice/list.
+
+##### Examples
+- Shuffles a list of numbers:
+  ```gotemplate
+  {{ list 1 2 3 4 5 6 | shuffle | join "" }}
   ```
