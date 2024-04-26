@@ -59,6 +59,7 @@ func NewDefault() *Config {
 		Profile: ProfileRef{"diceware", 4},
 		Profiles: map[string]Profile{
 			"alpha":    {"{{ randAlpha . }}", 32},
+			"alphanum": {"{{ randAlphaNum . }}", 32},
 			"ascii":    {"{{ randAscii . }}", 32},
 			"diceware": {`{{ wordsWithNumber . | join "-" | title }}`, 4},
 			"pin":      {"{{ num . }}", 6},

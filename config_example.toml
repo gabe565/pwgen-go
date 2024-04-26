@@ -13,6 +13,10 @@ template = ''
 template = '{{ randAlpha . }}'
 param = 32
 
+[profiles.alphanum]
+template = '{{ randAlphaNum . }}'
+param = 32
+
 [profiles.ascii]
 template = '{{ randAscii . }}'
 param = 32
