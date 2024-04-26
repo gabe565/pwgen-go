@@ -123,6 +123,14 @@ All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus 
 
 ### Functions
 
+- [`word`](#word)
+- [`words`](#words)
+- [`wordsWithNum`](#wordswithnum-wordswithnumber)
+- [`num`](#num-number-numeric)
+- [`alpha`](#alpha)
+- [`alphaNum`](#alphaNum)
+- [`ascii`](#ascii)
+
 #### `word`
 
 Outputs a random word from the wordlist. For title case, the output can be piped to `title`.
