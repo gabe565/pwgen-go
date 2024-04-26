@@ -130,6 +130,7 @@ All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus 
 - [`alpha`](#alpha)
 - [`alphaNum`](#alphaNum)
 - [`ascii`](#ascii)
+- [`binary`](#binary)
 
 #### `word`
 
@@ -210,4 +211,14 @@ Alias for [Sprig's `randAscii` function](https://masterminds.github.io/sprig/str
 - Generate a random string of letters, numbers, and symbols:
   ```gotemplate
   {{ ascii 32 }}
+  ```
+
+#### `binary`
+
+Random binary data will be generated with number of bytes determined by the parameter. Useful with [`b64enc`](https://masterminds.github.io/sprig/encoding.html).
+
+##### Examples
+- Generate a random base64 string with 32 bytes of data:
+  ```gotemplate
+  {{ binary 32 | b64enc }}
   ```

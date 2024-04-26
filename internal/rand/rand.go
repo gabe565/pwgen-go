@@ -18,6 +18,14 @@ func ShuffleSlice[T any](s []T) []T {
 	return s
 }
 
+func BinaryN(n int) (string, error) {
+	v := make([]byte, n)
+	if err := binary.Read(cryptoRand.Reader, binary.BigEndian, &v); err != nil {
+		return "", err
+	}
+	return string(v), nil
+}
+
 type cryptoSource struct{}
 
 func (s cryptoSource) Seed(_ int64) {}
