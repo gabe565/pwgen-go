@@ -17,7 +17,7 @@ type Config struct {
 
 type Profile struct {
 	Template string `toml:"template"`
-	Param    int    `toml:"param"`
+	Param    int    `toml:"param,omitempty"`
 }
 
 type ProfileRef struct {
