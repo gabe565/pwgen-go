@@ -58,7 +58,7 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 	}
 
 	cmd.Flags().StringP("profile", "p", config.NewDefault().Template, `Generates passphrases using a preconfigured profile and an optional parameter. (see "pwgen profiles")`)
-	if err := cmd.RegisterFlagCompletionFunc("profile", func(cmd *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+	if err := cmd.RegisterFlagCompletionFunc("profile", func(cmd *cobra.Command, _ []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		conf, err := config.Load(cmd, false)
 		if err != nil {
 			return nil, cobra.ShellCompDirectiveError
@@ -80,7 +80,10 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 			}
 			name := k + ":" + strconv.Itoa(v.Param)
 			pad := strings.Repeat(" ", longest-len(name))
-			named = append(named, fmt.Sprintf("%s:\t%s%s -> %s", k, name, pad, buf.String()))
+			if toComplete == k {
+				k += ":"
+			}
+			named = append(named, fmt.Sprintf("%s\t%s%s -> %s", k, name, pad, buf.String()))
 			buf.Reset()
 		}
 		return named, cobra.ShellCompDirectiveNoFileComp | cobra.ShellCompDirectiveNoSpace
