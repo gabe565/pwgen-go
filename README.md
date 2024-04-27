@@ -88,7 +88,14 @@ Download and run the [latest release binary](https://github.com/gabe565/pwgen-go
 </details>
 
 ## Usage
-Run `pwgen` for a list of generated passphrases. The template can be customized with the `--template` (`-t`) flag, and the number of generated entries can be customized with `--count` (`-c`).  
+Run `pwgen` to generate a list of random passphrases. All random functions use cryptographically secure (`crypto/rand`) random strings.
+
+Predefined profiles can be used with the `--profile` (`-p`) flag. See [`pwgen profiles`](docs/pwgen_profiles.md) for a list of defaults.
+
+Alternatively, the template can be directly customized with the `--template` (`-t`) flag.
+
+To change the number of generated results, pass a different number to the `--count` (`-c`) flag.
+
 Also see the generated [docs](docs/pwgen.md).
 
 ### Example
@@ -119,117 +126,4 @@ An example configuration is also available at [`config_example.toml`](config_exa
 
 Templated passphrases are generated using Go's [text/template](https://pkg.go.dev/text/template) package.
 
-All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus some extras listed below.
-
-### Functions
-
-- [`word`](#word)
-- [`words`](#words)
-- [`wordsWithNum`](#wordswithnum-wordswithnumber)
-- [`num`](#num-number-numeric)
-- [`alpha`](#alpha)
-- [`alphaNum`](#alphaNum)
-- [`ascii`](#ascii)
-- [`binary`](#binary)
-- [`shuffle`](#shuffle)
-
-#### `word`
-
-Outputs a random word from the wordlist. For title case, the output can be piped to `title`.
-
-##### Examples
-- Lowercase:
-  ```gotemplate
-  {{ word }}
-  ```
-- Title case:
-  ```gotemplate
-  {{ title word }}
-  ```
-
-#### `words`
-
-Outputs a slice of random words from the wordlist. The output will be a slice, which can be joined using `join`. For title case, the output can be piped to `title`.
-
-##### Examples
-- Lowercase, joined with `-`:
-  ```gotemplate
-  {{ words 3 | join "-" }}
-  ```
-- Title case, joined with `-`:
-  ```gotemplate
-  {{ words 3 | join "-" | title }}
-  ```
-
-#### `wordsWithNum`, `wordsWithNumber`
-
-Behaves similarly to [`words`](#words), but will append a random number to one of the words.
-
-##### Examples
-```gotemplate
-{{ wordsWithNumber 3 | join "-" }}
-```
-
-#### `num`, `number`, `numeric`
-
-Alias for [Sprig's `randNumeric` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). A random number will be generated with the number of digits determined by the parameter.
-
-##### Examples
-- Generate a number from 0-9:
-  ```gotemplate
-  {{ num 1 }}
-  ```
-- Generate a number from 10-99:
-  ```gotemplate
-  {{ num 2 }}
-  ```
-
-#### `alpha`
-
-Alias for [Sprig's `randAlpha` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters will be generated with the length determined by the parameter.
-
-##### Examples
-- Generate a random string of letters:
-  ```gotemplate
-  {{ alpha 32 }}
-  ```
-
-#### `alphaNum`
-
-Alias for [Sprig's `randAlphaNum` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters and numbers will be generated with the length determined by the parameter.
-
-##### Examples
-- Generate a random string of letters and numbers:
-  ```gotemplate
-  {{ alphaNum 32 }}
-  ```
-
-#### `ascii`
-
-Alias for [Sprig's `randAscii` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters, numbers, and symbols will be generated with the length determined by the parameter.
-
-##### Examples
-- Generate a random string of letters, numbers, and symbols:
-  ```gotemplate
-  {{ ascii 32 }}
-  ```
-
-#### `binary`
-
-Random binary data will be generated with number of bytes determined by the parameter. Useful with [`b64enc`](https://masterminds.github.io/sprig/encoding.html).
-
-##### Examples
-- Generate a random base64 string with 32 bytes of data:
-  ```gotemplate
-  {{ binary 32 | b64enc }}
-  ```
-
-#### `shuffle`
-
-Randomly shuffles a slice/list.
-
-##### Examples
-- Shuffles a list of numbers:
-  ```gotemplate
-  {{ list 1 2 3 4 5 6 | shuffle | join "" }}
-  ```
+All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus some extras documented [here](docs/pwgen_functions.md).

@@ -23,4 +23,5 @@ pwgen [flags]
 ```
 
 ### SEE ALSO
+* [pwgen functions](pwgen_functions.md)  - Template function reference
 * [pwgen profiles](pwgen_profiles.md)  - Default profile reference

@@ -13,9 +13,6 @@ import (
 func main() {
 	output := "./docs"
 
-	if err := os.RemoveAll(output); err != nil {
-		panic(err)
-	}
 	if err := os.MkdirAll(output, 0o755); err != nil {
 		panic(err)
 	}
@@ -26,7 +23,9 @@ func main() {
 	if err := doc.GenMarkdown(root, &buf); err != nil {
 		panic(err)
 	}
-	buf.WriteString(fmt.Sprintf("### SEE ALSO\n* [%s %s](%s_%s.md)  - %s\n", root.Name(), tmpl.Name(), root.Name(), tmpl.Name(), tmpl.Short))
+	buf.WriteString("### SEE ALSO\n")
+	buf.WriteString(fmt.Sprintf("* [%s %s](%s_%s.md)  - %s\n", root.Name(), "functions", root.Name(), "functions", "Template function reference"))
+	buf.WriteString(fmt.Sprintf("* [%s %s](%s_%s.md)  - %s\n", root.Name(), tmpl.Name(), root.Name(), tmpl.Name(), tmpl.Short))
 	if err := os.WriteFile(filepath.Join(output, "pwgen.md"), buf.Bytes(), 0o644); err != nil {
 		panic(err)
 	}
