@@ -80,7 +80,7 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 			}
 			name := k + ":" + strconv.Itoa(v.Param)
 			pad := strings.Repeat(" ", longest-len(name))
-			if toComplete == k {
+			if toComplete == k && strings.Contains(v.Template, ".") {
 				k += ":"
 			}
 			named = append(named, fmt.Sprintf("%s\t%s%s -> %s", k, name, pad, buf.String()))
