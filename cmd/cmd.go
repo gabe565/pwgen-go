@@ -68,8 +68,10 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		funcMap := pwgen_template.FuncMap(conf)
 		var buf bytes.Buffer
 		var longest int
-		for k, v := range conf.Profiles {
-			name := k + ":" + strconv.Itoa(v.Param)
+		for name, v := range conf.Profiles {
+			if v.Param != 0 {
+				name += ":" + strconv.Itoa(v.Param)
+			}
 			if longest < len(name) {
 				longest = len(name)
 			}
@@ -78,12 +80,15 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 			if tmpl, err := template.New("").Funcs(funcMap).Parse(v.Template); err == nil {
 				_ = tmpl.Execute(&buf, v.Param)
 			}
-			name := k + ":" + strconv.Itoa(v.Param)
-			pad := strings.Repeat(" ", longest-len(name))
-			if toComplete == k && strings.Contains(v.Template, ".") {
-				k += ":"
+			example := k //nolint:copyloopvar
+			if v.Param != 0 {
+				example += ":" + strconv.Itoa(v.Param)
+				if toComplete == k {
+					k += ":"
+				}
 			}
-			named = append(named, fmt.Sprintf("%s\t%s%s -> %s", k, name, pad, buf.String()))
+			pad := strings.Repeat(" ", longest-len(example))
+			named = append(named, fmt.Sprintf("%s\t%s%s -> %s", k, example, pad, buf.String()))
 			buf.Reset()
 		}
 		return named, cobra.ShellCompDirectiveNoFileComp | cobra.ShellCompDirectiveNoSpace
