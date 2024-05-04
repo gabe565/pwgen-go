@@ -80,7 +80,7 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 			if tmpl, err := template.New("").Funcs(funcMap).Parse(v.Template); err == nil {
 				_ = tmpl.Execute(&buf, v.Param)
 			}
-			example := k //nolint:copyloopvar
+			example := k
 			if v.Param != 0 {
 				example += ":" + strconv.Itoa(v.Param)
 				if toComplete == k {
