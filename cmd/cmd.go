@@ -46,7 +46,7 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		panic(err)
 	}
 
-	cmd.Flags().String(config.FlagWordlist, "long", "Wordlist to use (one of: long, short1, short2)")
+	cmd.Flags().String(config.FlagWordlist, config.WordlistLong, "Wordlist to use (one of: "+config.WordlistLong+", "+config.WordlistShort1+", "+config.WordlistShort2+")")
 	if err := cmd.RegisterFlagCompletionFunc(config.FlagWordlist, func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{config.WordlistLong, config.WordlistShort1, config.WordlistShort2}, cobra.ShellCompDirectiveNoFileComp
 	}); err != nil {
