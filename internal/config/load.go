@@ -34,7 +34,7 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 	}
 
 	// Find config file
-	cfgFile, err := cmd.Flags().GetString("config")
+	cfgFile, err := cmd.Flags().GetString(FlagConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +100,7 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 		return nil, err
 	}
 
-	if conf.Profile.Name != "" && (conf.Template == "" || cmd.Flags().Lookup("profile").Changed && !cmd.Flags().Lookup("template").Changed) {
+	if conf.Profile.Name != "" && (conf.Template == "" || cmd.Flags().Lookup(FlagProfile).Changed && !cmd.Flags().Lookup(FlagTemplate).Changed) {
 		profile, ok := conf.Profiles[conf.Profile.Name]
 		if !ok {
 			return nil, fmt.Errorf("%w: %s", ErrProfileNotFound, conf.Profile.Name)

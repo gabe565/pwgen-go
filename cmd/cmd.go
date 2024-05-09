@@ -34,31 +34,31 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 	cfg, _ := config.GetFilePretty()
 	defaultCfg := config.NewDefault()
 
-	cmd.Flags().String("config", "", "Config file (default "+cfg+")")
-	if err := cmd.RegisterFlagCompletionFunc("config", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+	cmd.Flags().String(config.FlagConfig, "", "Config file (default "+cfg+")")
+	if err := cmd.RegisterFlagCompletionFunc(config.FlagConfig, func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
 	}); err != nil {
 		panic(err)
 	}
-	cmd.Flags().IntP("count", "c", defaultCfg.Count, "Number of passphrases to generate")
-	if err := cmd.RegisterFlagCompletionFunc("count", cobra.NoFileCompletions); err != nil {
+	cmd.Flags().IntP(config.FlagCount, "c", defaultCfg.Count, "Number of passphrases to generate")
+	if err := cmd.RegisterFlagCompletionFunc(config.FlagCount, cobra.NoFileCompletions); err != nil {
 		panic(err)
 	}
 
-	cmd.Flags().String("wordlist", "long", "Wordlist to use (one of: long, short1, short2)")
-	if err := cmd.RegisterFlagCompletionFunc("wordlist", func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+	cmd.Flags().String(config.FlagWordlist, "long", "Wordlist to use (one of: long, short1, short2)")
+	if err := cmd.RegisterFlagCompletionFunc(config.FlagWordlist, func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 		return []string{config.WordlistLong, config.WordlistShort1, config.WordlistShort2}, cobra.ShellCompDirectiveNoFileComp
 	}); err != nil {
 		panic(err)
 	}
 
-	cmd.Flags().StringP("template", "t", config.NewDefault().Template, `Template used to generate passphrases. If set, overrides the current profile.`)
-	if err := cmd.RegisterFlagCompletionFunc("template", cobra.NoFileCompletions); err != nil {
+	cmd.Flags().StringP(config.FlagTemplate, "t", config.NewDefault().Template, `Template used to generate passphrases. If set, overrides the current profile.`)
+	if err := cmd.RegisterFlagCompletionFunc(config.FlagTemplate, cobra.NoFileCompletions); err != nil {
 		panic(err)
 	}
 
-	cmd.Flags().StringP("profile", "p", config.NewDefault().Template, `Generates passphrases using a preconfigured profile and an optional parameter. (see "pwgen profiles")`)
-	if err := cmd.RegisterFlagCompletionFunc("profile", func(cmd *cobra.Command, _ []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+	cmd.Flags().StringP(config.FlagProfile, "p", config.NewDefault().Template, `Generates passphrases using a preconfigured profile and an optional parameter. (see "pwgen profiles")`)
+	if err := cmd.RegisterFlagCompletionFunc(config.FlagProfile, func(cmd *cobra.Command, _ []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		conf, err := config.Load(cmd, false)
 		if err != nil {
 			return nil, cobra.ShellCompDirectiveError
