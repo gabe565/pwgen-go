@@ -4,23 +4,12 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
-	"github.com/gabe565/pwgen-go/internal/config"
 	"github.com/gabe565/pwgen-go/internal/rand"
 	"github.com/gabe565/pwgen-go/internal/wordlist"
 )
 
-func FuncMap(conf *config.Config) template.FuncMap {
+func FuncMap(list wordlist.Wordlist) template.FuncMap {
 	funcs := sprig.FuncMap()
-
-	var list wordlist.Wordlist
-	switch conf.Wordlist {
-	case config.WordlistLong:
-		list = wordlist.EFF_Long
-	case config.WordlistShort1:
-		list = wordlist.EFF_Short1
-	case config.WordlistShort2:
-		list = wordlist.EFF_Short2
-	}
 
 	funcs["randWord"] = list.RandWord
 	funcs["word"] = list.RandWord

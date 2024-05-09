@@ -117,11 +117,5 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 		conf.Template += "\n"
 	}
 
-	switch conf.Wordlist {
-	case WordlistLong, WordlistShort1, WordlistShort2:
-	default:
-		conf.Wordlist = WordlistLong
-	}
-
 	return conf, err
 }

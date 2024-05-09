@@ -11,6 +11,7 @@ import (
 
 	"github.com/gabe565/pwgen-go/internal/config"
 	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
+	"github.com/gabe565/pwgen-go/internal/wordlist"
 	"github.com/spf13/cobra"
 )
 
@@ -65,7 +66,11 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		}
 
 		named := make([]string, 0, len(conf.Profiles))
-		funcMap := pwgen_template.FuncMap(conf)
+		wl, err := wordlist.New(conf.Wordlist)
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+		funcMap := pwgen_template.FuncMap(wl)
 		var buf bytes.Buffer
 		var longest int
 		for name, v := range conf.Profiles {
@@ -132,7 +137,12 @@ func run(cmd *cobra.Command, _ []string) error {
 		return ErrMissingConfig
 	}
 
-	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(conf)).Parse(conf.Template)
+	wl, err := wordlist.New(conf.Wordlist)
+	if err != nil {
+		return err
+	}
+
+	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(wl)).Parse(conf.Template)
 	if err != nil {
 		return fmt.Errorf("%w: %w", ErrInvalidFormat, err)
 	}

@@ -1,12 +1,30 @@
 package wordlist
 
 import (
+	"errors"
+	"fmt"
 	"strconv"
 
+	"github.com/gabe565/pwgen-go/internal/config"
 	"github.com/gabe565/pwgen-go/internal/rand"
 )
 
 //go:generate go run ./generate
+
+var ErrUnknownName = errors.New("unknown wordlist name")
+
+func New(name string) (Wordlist, error) {
+	switch name {
+	case config.WordlistLong:
+		return EFF_Long, nil
+	case config.WordlistShort1:
+		return EFF_Short1, nil
+	case config.WordlistShort2:
+		return EFF_Short2, nil
+	default:
+		return nil, fmt.Errorf("%w: %s", ErrUnknownName, name)
+	}
+}
 
 type Wordlist []string
 
