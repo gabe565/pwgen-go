@@ -3,10 +3,12 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	. "github.com/dave/jennifer/jen" //nolint:revive,stylecheck
 )
@@ -36,8 +38,11 @@ func main() {
 		},
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	defer cancel()
+
 	for _, conf := range configs {
-		if err := templateFile(conf); err != nil {
+		if err := templateFile(ctx, conf); err != nil {
 			panic(err)
 		}
 	}
@@ -48,9 +53,13 @@ var (
 	errNoWords    = errors.New("list did not contain any words")
 )
 
-func templateFile(conf config) error {
-	//nolint:noctx
-	resp, err := http.Get(conf.url)
+func templateFile(ctx context.Context, conf config) error {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, conf.url, nil)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
 	}
