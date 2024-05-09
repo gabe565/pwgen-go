@@ -18,13 +18,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func flagTable() map[string]string {
-	return map[string]string{
-		"count":    "count",
-		"template": "template",
-		"wordlist": "wordlist",
-		"profile":  "profile",
-	}
+func flagToConfigMapping() map[string]string {
+	return map[string]string{}
 }
 
 var ErrProfileNotFound = errors.New("profile not found")
@@ -90,12 +85,10 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 	}
 
 	// Load flags
-	flagTable := flagTable()
+	flagMapping := flagToConfigMapping()
 	err = k.Load(posflag.ProviderWithValue(cmd.Flags(), ".", k, func(key string, value string) (string, any) {
-		if k, ok := flagTable[key]; ok {
+		if k, ok := flagMapping[key]; ok {
 			key = k
-		} else {
-			key = ""
 		}
 		return key, value
 	}), nil)
