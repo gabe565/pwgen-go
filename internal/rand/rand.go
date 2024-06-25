@@ -1,7 +1,5 @@
 package rand
 
-import "strconv"
-
 func IntN(n int) int {
 	return globalRand.IntN(n)
 }
@@ -14,36 +12,30 @@ func ShuffleSlice[T any](s []T) []T {
 }
 
 func Numeric(n int) string {
-	var result string
-	for range n {
-		result += strconv.Itoa(globalRand.IntN(10))
-	}
-	return result
+	return Letters(n, "0123456789")
 }
 
 func Alpha(n int) string {
-	const bytes = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-	result := make([]byte, 0, n)
-	for range n {
-		result = append(result, bytes[globalRand.IntN(len(bytes))])
-	}
-	return string(result)
+	return Letters(n, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 }
 
 func AlphaNum(n int) string {
-	const bytes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	return Letters(n, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+}
+
+func ASCII(n int) string {
+	const minByte, maxByte = ' ', '~'
 	result := make([]byte, 0, n)
 	for range n {
-		result = append(result, bytes[globalRand.IntN(len(bytes))])
+		result = append(result, byte(globalRand.IntN(maxByte+1-minByte)+minByte))
 	}
 	return string(result)
 }
 
-func ASCII(n int) string {
+func Letters(n int, letters string) string {
 	result := make([]byte, 0, n)
 	for range n {
-		// Generate random bytes between 32 (space) and 126 (~)
-		result = append(result, byte(globalRand.IntN(127-32)+32))
+		result = append(result, letters[globalRand.IntN(len(letters))])
 	}
 	return string(result)
 }
