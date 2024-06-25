@@ -64,6 +64,7 @@ func NewDefault() *Config {
 			"diceware": {`{{ wordsWithNum . | join "-" | title }}`, 4},
 			"pin":      {"{{ num . }}", 6},
 			"words":    {`{{ words . | join " " }}`, 4},
+			"laravel":  {`base64:{{ binary 32 | b64enc }}`, 0},
 		},
 		Wordlist: WordlistLong,
 	}

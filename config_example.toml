@@ -25,6 +25,9 @@ param = 32
 template = '{{ wordsWithNum . | join "-" | title }}'
 param = 4
 
+[profiles.laravel]
+template = 'base64:{{ binary 32 | b64enc }}'
+
 [profiles.pin]
 template = '{{ num . }}'
 param = 6
