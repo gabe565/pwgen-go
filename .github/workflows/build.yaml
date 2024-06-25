@@ -72,9 +72,9 @@ jobs:
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           repositories: pwgen-go,homebrew-tap
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
-          version: latest
+          version: v2
           args: ${{ steps.vars.outputs.args }}
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
