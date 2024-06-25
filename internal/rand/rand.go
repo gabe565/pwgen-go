@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-//nolint:gochecknoglobals
+//nolint:gochecknoglobals,gosec
 var Rand = rand.New(cryptoSource{})
 
 func ShuffleSlice[T any](s []T) []T {
