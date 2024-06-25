@@ -11,7 +11,7 @@ import (
 )
 
 //nolint:gochecknoglobals,gosec
-var Rand = rand.New(cryptoSource{})
+var globalRand = rand.New(cryptoSource{})
 
 func BinaryN(n int) (string, error) {
 	v := make([]byte, n)

@@ -16,12 +16,12 @@ This binary was built with an insecure flag that generates predictable passwords
 }
 
 //nolint:gochecknoglobals,gosec
-var Rand = rand.New(rand.NewPCG(1, 2))
+var globalRand = rand.New(rand.NewPCG(1, 2))
 
 func BinaryN(n int) (string, error) {
 	v := make([]byte, 0, n)
 	for range n {
-		v = append(v, byte(Rand.Uint64()))
+		v = append(v, byte(globalRand.Uint64()))
 	}
 	return string(v), nil
 }

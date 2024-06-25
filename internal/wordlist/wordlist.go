@@ -29,7 +29,7 @@ func New(name string) (Wordlist, error) {
 type Wordlist []string
 
 func (w Wordlist) RandWord() string {
-	lineNum := rand.Rand.IntN(len(w))
+	lineNum := rand.IntN(len(w))
 	return w[lineNum]
 }
 
@@ -43,7 +43,7 @@ func (w Wordlist) RandWords(n int) []string {
 
 func (w Wordlist) RandWordsWithNumber(n int) []string {
 	words := w.RandWords(n)
-	words[len(words)-1] += strconv.Itoa(rand.Rand.IntN(10))
+	words[len(words)-1] += strconv.Itoa(rand.IntN(10))
 	rand.ShuffleSlice(words)
 	return words
 }
