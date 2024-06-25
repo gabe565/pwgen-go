@@ -7,17 +7,32 @@ import (
 )
 
 type Config struct {
-	Count    int                `toml:"count" comment:"Number of passphrases to generate."`
-	Profile  ProfileRef         `toml:"profile" comment:"Default profile used to generate passphrases."`
-	Param    any                `toml:"-"`
-	Profiles map[string]Profile `toml:"profiles" comment:"Preconfigured profiles and default parameters."`
-	Wordlist string             `toml:"wordlist" comment:"Wordlist to use. (one of: long, short1, short2)"`
-	Template string             `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile." `
+	Count    int        `toml:"count" comment:"Number of passphrases to generate."`
+	Profile  ProfileRef `toml:"profile" comment:"Default profile used to generate passphrases."`
+	Param    any        `toml:"-"`
+	Profiles ProfileMap `toml:"profiles" comment:"Preconfigured profiles and default parameters."`
+	Wordlist string     `toml:"wordlist" comment:"Wordlist to use. (one of: long, short1, short2)"`
+	Template string     `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile." `
+}
+
+type ProfileMap map[string]Profile
+
+func (p ProfileMap) Named() []NamedProfile {
+	result := make([]NamedProfile, 0, len(p))
+	for k, v := range p {
+		result = append(result, NamedProfile{k, v})
+	}
+	return result
 }
 
 type Profile struct {
 	Template string `toml:"template"`
 	Param    int    `toml:"param,omitempty"`
+}
+
+type NamedProfile struct {
+	Name string
+	Profile
 }
 
 type ProfileRef struct {

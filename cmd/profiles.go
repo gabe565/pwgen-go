@@ -1,9 +1,15 @@
 package cmd
 
 import (
+	"cmp"
+	"slices"
 	"strconv"
+	"strings"
+	"text/template"
 
 	"github.com/gabe565/pwgen-go/internal/config"
+	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
+	"github.com/gabe565/pwgen-go/internal/wordlist"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
 	"github.com/spf13/cobra"
@@ -29,17 +35,30 @@ func NewProfiles(format Format) *cobra.Command {
 	style.Color.Separator = style.Color.Border
 	t.SetStyle(style)
 
-	t.AppendHeader(table.Row{"Name", "Template"})
-	for k, v := range conf.Profiles {
-		name := k + ":" + strconv.Itoa(v.Param)
+	profiles := conf.Profiles.Named()
+	slices.SortStableFunc(profiles, func(a, b config.NamedProfile) int {
+		return cmp.Compare(a.Name, b.Name)
+	})
+
+	words := wordlist.EFF_Long()
+
+	t.AppendHeader(table.Row{"Name", "Template", "Example"})
+	for _, v := range profiles {
+		name := v.Name + ":" + strconv.Itoa(v.Param)
+
+		var buf strings.Builder
+		tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(words)).Parse(v.Template)
+		if err == nil {
+			_ = tmpl.Execute(&buf, v.Param)
+		}
+
 		switch format {
 		case FormatText:
-			t.AppendRow(table.Row{name, v.Template})
+			t.AppendRow(table.Row{name, v.Template, buf.String()})
 		case FormatMarkdown:
-			t.AppendRow(table.Row{"`" + name + "`", "`" + v.Template + "`"})
+			t.AppendRow(table.Row{"`" + name + "`", "`" + v.Template + "`", "<code>" + buf.String() + "</code>"})
 		}
 	}
-	t.SortBy([]table.SortBy{{Number: 1}})
 
 	switch format {
 	case FormatText:
