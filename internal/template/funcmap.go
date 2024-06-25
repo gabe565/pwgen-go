@@ -10,26 +10,24 @@ import (
 
 func FuncMap(list wordlist.Wordlist) template.FuncMap {
 	funcs := sprig.FuncMap()
-
 	funcs["randWord"] = list.RandWord
 	funcs["word"] = list.RandWord
-
 	funcs["randWords"] = list.RandWords
 	funcs["words"] = list.RandWords
 	funcs["wordsWithNumber"] = list.RandWordsWithNumber
 	funcs["wordsWithNum"] = list.RandWordsWithNumber
-
-	funcs["number"] = funcs["randNumeric"]
-	funcs["num"] = funcs["randNumeric"]
-	funcs["numeric"] = funcs["randNumeric"]
-	funcs["alpha"] = funcs["randAlpha"]
-	funcs["alphaNum"] = funcs["randAlphaNum"]
-	funcs["ascii"] = funcs["randAscii"]
-
+	funcs["randNumeric"] = rand.Numeric
+	funcs["number"] = rand.Numeric
+	funcs["num"] = rand.Numeric
+	funcs["numeric"] = rand.Numeric
+	funcs["randAlpha"] = rand.Alpha
+	funcs["alpha"] = rand.Alpha
+	funcs["randAlphaNum"] = rand.AlphaNum
+	funcs["alphaNum"] = rand.AlphaNum
+	funcs["randAscii"] = rand.ASCII
+	funcs["ascii"] = rand.ASCII
 	funcs["randBinary"] = rand.BinaryN
 	funcs["binary"] = rand.BinaryN
-
 	funcs["shuffle"] = rand.ShuffleSlice[any]
-
 	return funcs
 }

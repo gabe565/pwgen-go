@@ -49,7 +49,7 @@ Behaves similarly to [`words`](#words), but will append a random number to one o
 
 ## `num`, `number`, `numeric`
 
-Alias for [Sprig's `randNumeric` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). A random number will be generated with the number of digits determined by the parameter.
+A random number will be generated with the number of digits determined by the parameter.
 
 ### Examples
 - Generate a number from 0-9:
@@ -63,7 +63,7 @@ Alias for [Sprig's `randNumeric` function](https://masterminds.github.io/sprig/s
 
 ## `alpha`
 
-Alias for [Sprig's `randAlpha` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters will be generated with the length determined by the parameter.
+Random letters will be generated with the length determined by the parameter.
 
 ### Examples
 - Generate a random string of letters:
@@ -73,7 +73,7 @@ Alias for [Sprig's `randAlpha` function](https://masterminds.github.io/sprig/str
 
 ## `alphaNum`
 
-Alias for [Sprig's `randAlphaNum` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters and numbers will be generated with the length determined by the parameter.
+Random letters and numbers will be generated with the length determined by the parameter.
 
 ### Examples
 - Generate a random string of letters and numbers:
@@ -83,7 +83,7 @@ Alias for [Sprig's `randAlphaNum` function](https://masterminds.github.io/sprig/
 
 ## `ascii`
 
-Alias for [Sprig's `randAscii` function](https://masterminds.github.io/sprig/strings.html#randalphanum-randalpha-randnumeric-and-randascii). Random letters, numbers, and symbols will be generated with the length determined by the parameter.
+Random letters, numbers, and symbols will be generated with the length determined by the parameter.
 
 ### Examples
 - Generate a random string of letters, numbers, and symbols:
