@@ -9,7 +9,7 @@ import (
 )
 
 func FuncMap(list wordlist.Wordlist) template.FuncMap {
-	funcs := sprig.FuncMap()
+	funcs := sprig.TxtFuncMap()
 	funcs["randWord"] = list.RandWord
 	funcs["word"] = list.RandWord
 	funcs["randWords"] = list.RandWords
