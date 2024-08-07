@@ -43,7 +43,9 @@ func (w Wordlist) RandWords(n int) []string {
 
 func (w Wordlist) RandWordsWithNumber(n int) []string {
 	words := w.RandWords(n)
-	words[len(words)-1] += strconv.Itoa(rand.IntN(10))
-	rand.ShuffleSlice(words)
+	if len(words) != 0 {
+		words[len(words)-1] += strconv.Itoa(rand.IntN(10))
+		rand.ShuffleSlice(words)
+	}
 	return words
 }
