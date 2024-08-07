@@ -18,7 +18,7 @@ func main() {
 	}
 
 	var buf bytes.Buffer
-	root := cmd.New("", "")
+	root := cmd.New()
 	tmpl := cmd.NewProfiles(cmd.FormatMarkdown)
 	if err := doc.GenMarkdown(root, &buf); err != nil {
 		panic(err)

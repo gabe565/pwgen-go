@@ -13,10 +13,7 @@ builds:
     ldflags:
       - -s
       - -w
-      - -X main.version=v{{.Version}}
-      - -X main.commit={{.ShortCommit}}
-      - -X main.date={{.CommitDate}}
-      - -X main.builtBy=goreleaser
+      - -X main.version={{.Version}}
     goarch:
       - amd64
       - arm

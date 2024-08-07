@@ -15,7 +15,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func New(version, commit string) *cobra.Command {
+func New(opts ...Option) *cobra.Command {
 	tmplSubcommand := NewProfiles(FormatText)
 
 	cmd := &cobra.Command{
@@ -23,7 +23,6 @@ func New(version, commit string) *cobra.Command {
 		Short: "Generate passphrases",
 		Long: `Generate passphrases using the EFF Diceware Wordlists.
 See https://www.eff.org/dice for details on the available wordlists.`,
-		Version: buildVersion(version, commit),
 		PreRunE: preRun,
 		RunE:    run,
 
@@ -101,14 +100,11 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		panic(err)
 	}
 
-	return cmd
-}
-
-func buildVersion(version, commit string) string {
-	if commit != "" {
-		version += " (" + commit + ")"
+	for _, opt := range opts {
+		opt(cmd)
 	}
-	return version
+
+	return cmd
 }
 
 func preRun(cmd *cobra.Command, _ []string) error {
