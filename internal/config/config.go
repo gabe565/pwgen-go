@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -44,7 +43,7 @@ func (p *ProfileRef) MarshalText() ([]byte, error) {
 	if p.Param == 0 {
 		return []byte(p.Name), nil
 	}
-	return []byte(fmt.Sprintf("%s:%v", p.Name, p.Param)), nil
+	return []byte(p.Name + ":" + strconv.Itoa(p.Param)), nil
 }
 
 func (p *ProfileRef) UnmarshalText(text []byte) error {
