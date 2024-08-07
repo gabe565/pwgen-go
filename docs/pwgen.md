@@ -5,7 +5,6 @@ Generate passphrases
 ### Synopsis
 
 Generate passphrases using the EFF Diceware Wordlists.
-See https://www.eff.org/dice for details on the available wordlists.
 
 ```
 pwgen [flags]

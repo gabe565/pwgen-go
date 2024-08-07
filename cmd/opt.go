@@ -13,8 +13,16 @@ func WithVersion(version string) Option {
 	}
 }
 
+func WithRaw() Option {
+	return func(cmd *cobra.Command) {
+		cmd.Long = long(true)
+	}
+}
+
 func WithMarkdown() Option {
 	return func(cmd *cobra.Command) {
+		WithRaw()(cmd)
+
 		profileCmd, _, err := cmd.Find([]string{"profiles"})
 		if err != nil {
 			panic(err)

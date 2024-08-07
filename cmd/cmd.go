@@ -13,15 +13,15 @@ import (
 	"github.com/gabe565/pwgen-go/internal/config"
 	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
 	"github.com/gabe565/pwgen-go/internal/wordlist"
+	"github.com/muesli/termenv"
 	"github.com/spf13/cobra"
 )
 
 func New(opts ...Option) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "pwgen",
-		Short: "Generate passphrases",
-		Long: `Generate passphrases using the EFF Diceware Wordlists.
-See https://www.eff.org/dice for details on the available wordlists.`,
+		Use:     "pwgen",
+		Short:   "Generate passphrases",
+		Long:    long(false),
 		PreRunE: preRun,
 		RunE:    run,
 
@@ -104,6 +104,16 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 	}
 
 	return cmd
+}
+
+func long(rawText bool) string {
+	var link string
+	if rawText {
+		link = "EFF Diceware Wordlists"
+	} else {
+		link = termenv.Hyperlink("https://www.eff.org/dice", "EFF Diceware Wordlists")
+	}
+	return "Generate passphrases using the " + link + "."
 }
 
 func preRun(cmd *cobra.Command, _ []string) error {
