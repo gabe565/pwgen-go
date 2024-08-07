@@ -1,10 +1,10 @@
 package cmd
 
 import (
+	"bufio"
 	"bytes"
 	"errors"
 	"fmt"
-	"io"
 	"strconv"
 	"strings"
 	"text/template"
@@ -147,13 +147,11 @@ func run(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("%w: %w", ErrInvalidFormat, err)
 	}
 
-	var buf bytes.Buffer
+	w := bufio.NewWriter(cmd.OutOrStdout())
 	for range conf.Count {
-		if err := tmpl.Execute(&buf, conf.Param); err != nil {
+		if err := tmpl.Execute(w, conf.Param); err != nil {
 			return fmt.Errorf("%w: %w", ErrTemplate, err)
 		}
-		_, _ = io.Copy(cmd.OutOrStdout(), &buf)
 	}
-
-	return nil
+	return w.Flush()
 }
