@@ -1,7 +1,8 @@
-package cmd
+package profiles
 
 import (
 	"cmp"
+	"io"
 	"slices"
 	"strconv"
 	"strings"
@@ -15,15 +16,31 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Format uint8
+const FormatMarkdown = "markdown"
 
-const (
-	FormatText Format = iota
-	FormatMarkdown
-)
+func New() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "profiles",
+		Short: "Default profile reference",
 
-func NewProfiles(format Format) *cobra.Command {
-	conf := config.NewDefault()
+		ValidArgsFunction: cobra.NoFileCompletions,
+	}
+	cmd.SetHelpFunc(helpFunc)
+	return cmd
+}
+
+func helpFunc(cmd *cobra.Command, _ []string) {
+	format := cmd.Annotations["format"]
+
+	var result strings.Builder
+	switch format {
+	case FormatMarkdown:
+		result.WriteString("The `--profile` flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
+			"## Default Profiles\n\n")
+	default:
+		result.WriteString("The --profile flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
+			"Default Profiles:\n")
+	}
 
 	t := table.NewWriter()
 	style := table.StyleLight
@@ -35,7 +52,7 @@ func NewProfiles(format Format) *cobra.Command {
 	style.Color.Separator = style.Color.Border
 	t.SetStyle(style)
 
-	profiles := conf.Profiles.Named()
+	profiles := config.NewDefault().Profiles.Named()
 	slices.SortStableFunc(profiles, func(a, b config.NamedProfile) int {
 		return cmp.Compare(a.Name, b.Name)
 	})
@@ -53,31 +70,19 @@ func NewProfiles(format Format) *cobra.Command {
 		}
 
 		switch format {
-		case FormatText:
-			t.AppendRow(table.Row{name, v.Template, buf.String()})
 		case FormatMarkdown:
 			t.AppendRow(table.Row{"`" + name + "`", "`" + v.Template + "`", "<code>" + buf.String() + "</code>"})
+		default:
+			t.AppendRow(table.Row{name, v.Template, buf.String()})
 		}
 	}
 
 	switch format {
-	case FormatText:
-		return &cobra.Command{
-			Use:   "profiles",
-			Short: "Default profile reference",
-			Long: "The --profile flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
-				"Default Profiles:\n" + t.Render(),
-			ValidArgsFunction: cobra.NoFileCompletions,
-		}
 	case FormatMarkdown:
-		return &cobra.Command{
-			Use:   "profiles",
-			Short: "Default profile reference",
-			Long: "The `--profile` flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
-				"## Default Profiles\n\n" + t.RenderMarkdown(),
-			ValidArgsFunction: cobra.NoFileCompletions,
-		}
+		result.WriteString(t.RenderMarkdown())
 	default:
-		panic("invalid format")
+		result.WriteString(t.Render())
 	}
+	result.WriteByte('\n')
+	_, _ = io.WriteString(cmd.OutOrStdout(), result.String())
 }

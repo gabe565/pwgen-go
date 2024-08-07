@@ -9,6 +9,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/gabe565/pwgen-go/cmd/profiles"
 	"github.com/gabe565/pwgen-go/internal/config"
 	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
 	"github.com/gabe565/pwgen-go/internal/wordlist"
@@ -16,8 +17,6 @@ import (
 )
 
 func New(opts ...Option) *cobra.Command {
-	tmplSubcommand := NewProfiles(FormatText)
-
 	cmd := &cobra.Command{
 		Use:   "pwgen",
 		Short: "Generate passphrases",
@@ -29,7 +28,7 @@ See https://www.eff.org/dice for details on the available wordlists.`,
 		ValidArgsFunction: cobra.NoFileCompletions,
 		DisableAutoGenTag: true,
 	}
-	cmd.AddCommand(tmplSubcommand)
+	cmd.AddCommand(profiles.New())
 
 	cfg, _ := config.GetFilePretty()
 	defaultCfg := config.NewDefault()
