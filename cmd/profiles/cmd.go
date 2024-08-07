@@ -16,11 +16,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const FormatMarkdown = "markdown"
+const (
+	name           = "profiles"
+	formatKey      = "format"
+	formatMarkdown = "markdown"
+)
 
 func New() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "profiles",
+		Use:   name,
 		Short: "Default profile reference",
 
 		ValidArgsFunction: cobra.NoFileCompletions,
@@ -29,12 +33,28 @@ func New() *cobra.Command {
 	return cmd
 }
 
+func SetMarkdown(cmd *cobra.Command, v bool) {
+	if cmd.Name() != name {
+		var err error
+		cmd, _, err = cmd.Find([]string{name})
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	if v {
+		cmd.Annotations = map[string]string{formatKey: formatMarkdown}
+	} else {
+		delete(cmd.Annotations, formatKey)
+	}
+}
+
 func helpFunc(cmd *cobra.Command, _ []string) {
-	format := cmd.Annotations["format"]
+	format := cmd.Annotations[formatKey]
 
 	var result strings.Builder
 	switch format {
-	case FormatMarkdown:
+	case formatMarkdown:
 		result.WriteString("The `--profile` flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
 			"## Default Profiles\n\n")
 	default:
@@ -70,7 +90,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 		}
 
 		switch format {
-		case FormatMarkdown:
+		case formatMarkdown:
 			t.AppendRow(table.Row{"`" + name + "`", "`" + v.Template + "`", "<code>" + buf.String() + "</code>"})
 		default:
 			t.AppendRow(table.Row{name, v.Template, buf.String()})
@@ -78,7 +98,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 	}
 
 	switch format {
-	case FormatMarkdown:
+	case formatMarkdown:
 		result.WriteString(t.RenderMarkdown())
 	default:
 		result.WriteString(t.Render())

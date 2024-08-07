@@ -22,11 +22,6 @@ func WithRaw() Option {
 func WithMarkdown() Option {
 	return func(cmd *cobra.Command) {
 		WithRaw()(cmd)
-
-		profileCmd, _, err := cmd.Find([]string{"profiles"})
-		if err != nil {
-			panic(err)
-		}
-		profileCmd.Annotations = map[string]string{"format": profiles.FormatMarkdown}
+		profiles.SetMarkdown(cmd, true)
 	}
 }
