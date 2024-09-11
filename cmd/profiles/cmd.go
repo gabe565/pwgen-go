@@ -9,7 +9,7 @@ import (
 	"text/template"
 
 	"github.com/gabe565/pwgen-go/internal/config"
-	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
+	"github.com/gabe565/pwgen-go/internal/funcmap"
 	"github.com/gabe565/pwgen-go/internal/wordlist"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
@@ -84,7 +84,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 		name := v.Name + ":" + strconv.Itoa(v.Param)
 
 		var buf strings.Builder
-		tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(words)).Parse(v.Template)
+		tmpl, err := template.New("").Funcs(funcmap.New(words)).Parse(v.Template)
 		if err == nil {
 			_ = tmpl.Execute(&buf, v.Param)
 		}
