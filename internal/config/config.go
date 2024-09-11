@@ -6,6 +6,8 @@ import (
 )
 
 type Config struct {
+	File string `toml:"-"`
+
 	Count    int        `toml:"count" comment:"Number of passphrases to generate."`
 	Profile  ProfileRef `toml:"profile" comment:"Default profile used to generate passphrases."`
 	Param    any        `toml:"-"`
@@ -67,7 +69,7 @@ const (
 	WordlistShort2 = "short2"
 )
 
-func NewDefault() *Config {
+func New() *Config {
 	return &Config{
 		Count:   10,
 		Profile: ProfileRef{"diceware", 4},

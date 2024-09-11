@@ -13,7 +13,7 @@ pwgen [flags]
 ### Options
 
 ```
-      --config string     Config file (default $HOME/.config/pwgen-go/config.toml)
+      --config string     Config file (default "$HOME/.config/pwgen-go/config.toml")
   -c, --count int         Number of passphrases to generate (default 10)
   -h, --help              help for pwgen
   -p, --profile string    Generates passphrases using a preconfigured profile and an optional parameter. (see "pwgen profiles")
