@@ -24,7 +24,12 @@ func Register(cmd *cobra.Command) {
 		cmd.RegisterFlagCompletionFunc(config.FlagCount, cobra.NoFileCompletions),
 		cmd.RegisterFlagCompletionFunc(config.FlagWordlist,
 			func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
-				return wordlist.MetaStrings(), cobra.ShellCompDirectiveNoFileComp
+				lists := wordlist.MetaValues()
+				values := make([]string, 0, len(lists))
+				for _, wl := range lists {
+					values = append(values, wl.String()+"\t"+strings.ReplaceAll(wl.Description(), "\n", " "))
+				}
+				return values, cobra.ShellCompDirectiveNoFileComp
 			},
 		),
 		cmd.RegisterFlagCompletionFunc(config.FlagTemplate, cobra.NoFileCompletions),
