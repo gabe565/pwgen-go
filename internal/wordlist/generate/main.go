@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"strings"
 	"time"
@@ -78,5 +79,10 @@ func templateFile(ctx context.Context, meta wordlist.Meta) error {
 		return err
 	}
 
-	return f.Save(strings.ToLower(meta.Var()) + ".go")
+	if err := f.Save(strings.ToLower(meta.Var()) + ".go"); err != nil {
+		return err
+	}
+
+	slog.Info("Generated wordlist", "name", meta.String(), "var", meta.Var(), "count", count, "url", meta.URL())
+	return nil
 }
