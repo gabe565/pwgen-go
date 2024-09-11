@@ -9,7 +9,6 @@ import (
 	"testing"
 	"unicode"
 
-	"github.com/gabe565/pwgen-go/internal/config"
 	"github.com/gabe565/pwgen-go/internal/wordlist"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -30,7 +29,7 @@ func Test_run(t *testing.T) {
 	type want struct {
 		re        string
 		lineCount int
-		wordlist  string
+		wordlist  wordlist.Meta
 		split     string
 		wordCount int
 		nums      int
@@ -74,19 +73,19 @@ func Test_run(t *testing.T) {
 		{
 			"default wordlist",
 			[]string{"--profile=words:10", "--count=999"},
-			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: config.WordlistLong},
+			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Long},
 			require.NoError,
 		},
 		{
 			"short1 wordlist",
 			[]string{"--profile=words:10", "--count=999", "--wordlist=short1"},
-			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: config.WordlistShort1},
+			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Short1},
 			require.NoError,
 		},
 		{
 			"short2 wordlist",
 			[]string{"--profile=words:10", "--count=999", "--wordlist=short2"},
-			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: config.WordlistShort2},
+			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Short2},
 			require.NoError,
 		},
 		{
@@ -113,11 +112,8 @@ func Test_run(t *testing.T) {
 
 			tt.wantErr(t, cmd.Execute())
 
-			var wl wordlist.Wordlist
-			if tt.want.wordlist != "" {
-				wl, err = wordlist.New(tt.want.wordlist)
-				require.NoError(t, err)
-			}
+			wl, err := tt.want.wordlist.List()
+			require.NoError(t, err)
 
 			var re *regexp.Regexp
 			if tt.want.re != "" {

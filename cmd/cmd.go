@@ -11,7 +11,6 @@ import (
 	"github.com/gabe565/pwgen-go/internal/config"
 	"github.com/gabe565/pwgen-go/internal/config/completions"
 	"github.com/gabe565/pwgen-go/internal/funcmap"
-	"github.com/gabe565/pwgen-go/internal/wordlist"
 	"github.com/muesli/termenv"
 	"github.com/spf13/cobra"
 )
@@ -64,7 +63,7 @@ func run(cmd *cobra.Command, _ []string) error {
 
 	cmd.SilenceUsage = true
 
-	wl, err := wordlist.New(conf.Wordlist)
+	wl, err := conf.Wordlist.List()
 	if err != nil {
 		return err
 	}
