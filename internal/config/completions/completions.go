@@ -24,7 +24,7 @@ func Register(cmd *cobra.Command) {
 		cmd.RegisterFlagCompletionFunc(config.FlagCount, cobra.NoFileCompletions),
 		cmd.RegisterFlagCompletionFunc(config.FlagWordlist,
 			func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
-				return []string{config.WordlistLong, config.WordlistShort1, config.WordlistShort2}, cobra.ShellCompDirectiveNoFileComp
+				return wordlist.MetaStrings(), cobra.ShellCompDirectiveNoFileComp
 			},
 		),
 		cmd.RegisterFlagCompletionFunc(config.FlagTemplate, cobra.NoFileCompletions),
@@ -41,7 +41,7 @@ func completeProfile(cmd *cobra.Command, _ []string, toComplete string) ([]strin
 	}
 
 	named := make([]string, 0, len(conf.Profiles))
-	wl, err := wordlist.New(conf.Wordlist)
+	wl, err := conf.Wordlist.List()
 	if err != nil {
 		return nil, cobra.ShellCompDirectiveError
 	}

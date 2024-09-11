@@ -3,17 +3,19 @@ package config
 import (
 	"strconv"
 	"strings"
+
+	"github.com/gabe565/pwgen-go/internal/wordlist"
 )
 
 type Config struct {
 	File string `toml:"-"`
 
-	Count    int        `toml:"count" comment:"Number of passphrases to generate."`
-	Profile  ProfileRef `toml:"profile" comment:"Default profile used to generate passphrases."`
-	Param    any        `toml:"-"`
-	Profiles ProfileMap `toml:"profiles" comment:"Preconfigured profiles and default parameters."`
-	Wordlist string     `toml:"wordlist" comment:"Wordlist to use. (one of: long, short1, short2)"`
-	Template string     `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile." `
+	Count    int           `toml:"count" comment:"Number of passphrases to generate."`
+	Profile  ProfileRef    `toml:"profile" comment:"Default profile used to generate passphrases."`
+	Param    any           `toml:"-"`
+	Profiles ProfileMap    `toml:"profiles" comment:"Preconfigured profiles and default parameters."`
+	Wordlist wordlist.Meta `toml:"wordlist" comment:"Wordlist to use. (one of: long, short1, short2)"`
+	Template string        `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile." `
 }
 
 type ProfileMap map[string]Profile
@@ -63,12 +65,6 @@ func (p *ProfileRef) UnmarshalText(text []byte) error {
 	return nil
 }
 
-const (
-	WordlistLong   = "long"
-	WordlistShort1 = "short1"
-	WordlistShort2 = "short2"
-)
-
 func New() *Config {
 	return &Config{
 		Count:   10,
@@ -82,6 +78,6 @@ func New() *Config {
 			"words":    {`{{ words . | join " " }}`, 4},
 			"laravel":  {`base64:{{ binary 32 | b64enc }}`, 0},
 		},
-		Wordlist: WordlistLong,
+		Wordlist: wordlist.Long,
 	}
 }
