@@ -91,7 +91,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 
 		switch format {
 		case formatMarkdown:
-			t.AppendRow(table.Row{"`" + name + "`", "<code>" + buf.String() + "</code>", "`" + v.Template + "`"})
+			t.AppendRow(table.Row{"`" + name + "`", "<pre>" + buf.String() + "</pre>", "<pre>" + v.Template + "</pre>"})
 		default:
 			t.AppendRow(table.Row{name, buf.String(), v.Template})
 		}
