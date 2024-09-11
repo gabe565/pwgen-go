@@ -79,7 +79,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 
 	words := wordlist.EFF_Long()
 
-	t.AppendHeader(table.Row{"Name", "Template", "Example"})
+	t.AppendHeader(table.Row{"Name", "Example", "Template"})
 	for _, v := range profiles {
 		name := v.Name + ":" + strconv.Itoa(v.Param)
 
@@ -91,9 +91,9 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 
 		switch format {
 		case formatMarkdown:
-			t.AppendRow(table.Row{"`" + name + "`", "`" + v.Template + "`", "<code>" + buf.String() + "</code>"})
+			t.AppendRow(table.Row{"`" + name + "`", "<code>" + buf.String() + "</code>", "`" + v.Template + "`"})
 		default:
-			t.AppendRow(table.Row{name, v.Template, buf.String()})
+			t.AppendRow(table.Row{name, buf.String(), v.Template})
 		}
 	}
 
