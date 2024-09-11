@@ -26,7 +26,11 @@ var ErrProfileNotFound = errors.New("profile not found")
 
 func Load(cmd *cobra.Command, save bool) (*Config, error) {
 	k := koanf.New(".")
-	conf := NewDefault()
+
+	conf, ok := FromContext(cmd.Context())
+	if !ok {
+		conf = New()
+	}
 
 	// Load default config
 	if err := k.Load(structs.Provider(conf, "toml"), nil); err != nil {
@@ -34,19 +38,16 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 	}
 
 	// Find config file
-	cfgFile, err := cmd.Flags().GetString(FlagConfig)
-	if err != nil {
-		return nil, err
-	}
-	if cfgFile == "" {
-		if cfgFile, err = GetFile(); err != nil {
+	if conf.File == "" {
+		var err error
+		if conf.File, err = GetFile(); err != nil {
 			return nil, err
 		}
 	}
 
 	var cfgNotExists bool
 	// Load config file if exists
-	cfgContents, err := os.ReadFile(cfgFile)
+	cfgContents, err := os.ReadFile(conf.File)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			cfgNotExists = true
@@ -73,12 +74,12 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 
 		if !bytes.Equal(cfgContents, newCfg) {
 			if cfgNotExists {
-				if err := os.MkdirAll(filepath.Dir(cfgFile), 0o777); err != nil {
+				if err := os.MkdirAll(filepath.Dir(conf.File), 0o777); err != nil {
 					return nil, err
 				}
 			}
 
-			if err := os.WriteFile(cfgFile, newCfg, 0o666); err != nil {
+			if err := os.WriteFile(conf.File, newCfg, 0o666); err != nil {
 				return nil, err
 			}
 		}

@@ -72,7 +72,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 	style.Color.Separator = style.Color.Border
 	t.SetStyle(style)
 
-	profiles := config.NewDefault().Profiles.Named()
+	profiles := config.New().Profiles.Named()
 	slices.SortStableFunc(profiles, func(a, b config.NamedProfile) int {
 		return cmp.Compare(a.Name, b.Name)
 	})

@@ -14,7 +14,7 @@ func main() {
 	}
 
 	encoder := toml.NewEncoder(f)
-	conf := config.NewDefault()
+	conf := config.New()
 	if err := encoder.Encode(conf); err != nil {
 		panic(err)
 	}
