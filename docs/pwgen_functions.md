@@ -9,6 +9,7 @@
 - [`ascii`](#ascii)
 - [`binary`](#binary)
 - [`shuffle`](#shuffle)
+- [`randFromStr`](#randFromStr)
 
 ## `word`
 
@@ -109,4 +110,14 @@ Randomly shuffles a slice/list.
 - Shuffles a list of numbers:
   ```gotemplate
   {{ list 1 2 3 4 5 6 | shuffle | join "" }}
+  ```
+
+## `randFromStr`
+
+A random string will be generated using only characters from the provided string.
+
+### Examples
+- Generate a Django secret key:
+  ```gotemplate
+  {{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}
   ```

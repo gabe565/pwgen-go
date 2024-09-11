@@ -12,15 +12,15 @@ func ShuffleSlice[T any](s []T) []T {
 }
 
 func Numeric(n int) string {
-	return Letters(n, "0123456789")
+	return FromString("0123456789", n)
 }
 
 func Alpha(n int) string {
-	return Letters(n, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+	return FromString("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", n)
 }
 
 func AlphaNum(n int) string {
-	return Letters(n, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+	return FromString("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", n)
 }
 
 func ASCII(n int) string {
@@ -32,7 +32,7 @@ func ASCII(n int) string {
 	return string(result)
 }
 
-func Letters(n int, letters string) string {
+func FromString(letters string, n int) string {
 	result := make([]byte, 0, n)
 	for range n {
 		result = append(result, letters[globalRand.IntN(len(letters))])

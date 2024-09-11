@@ -29,5 +29,6 @@ func New(list wordlist.Wordlist) template.FuncMap {
 	funcs["randBinary"] = rand.BinaryN
 	funcs["binary"] = rand.BinaryN
 	funcs["shuffle"] = rand.ShuffleSlice[any]
+	funcs["randFromStr"] = rand.FromString
 	return funcs
 }
