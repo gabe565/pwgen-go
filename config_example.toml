@@ -25,6 +25,9 @@ param = 32
 template = '{{ wordsWithNum . | join "-" | title }}'
 param = 4
 
+[profiles.django]
+template = '{{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}'
+
 [profiles.laravel]
 template = 'base64:{{ binary 32 | b64enc }}'
 

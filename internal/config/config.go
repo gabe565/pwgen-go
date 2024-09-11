@@ -77,6 +77,7 @@ func New() *Config {
 			"pin":      {"{{ num . }}", 6},
 			"words":    {`{{ words . | join " " }}`, 4},
 			"laravel":  {`base64:{{ binary 32 | b64enc }}`, 0},
+			"django":   {`{{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}`, 0},
 		},
 		Wordlist: wordlist.Long,
 	}
