@@ -4,7 +4,7 @@ go 1.22.6
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
-	github.com/dave/jennifer v1.7.0
+	github.com/dave/jennifer v1.7.1
 	github.com/fatih/color v1.17.0
 	github.com/jedib0t/go-pretty/v6 v6.5.9
 	github.com/knadh/koanf/providers/posflag v0.1.0
