@@ -18,7 +18,7 @@ func main() {
 		panic(err)
 	}
 
-	root := cmd.New(cmd.WithMarkdown())
+	root := cmd.New(cmd.WithVersion("beta"), cmd.WithMarkdown())
 
 	profCmd, _, err := root.Find([]string{"profiles"})
 	if err != nil {
