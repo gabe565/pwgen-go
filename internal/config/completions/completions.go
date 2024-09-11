@@ -63,7 +63,13 @@ func completeProfile(cmd *cobra.Command, _ []string, toComplete string) ([]strin
 	}
 	for k, v := range conf.Profiles {
 		if tmpl, err := template.New("").Funcs(funcMap).Parse(v.Template); err == nil {
-			_ = tmpl.Execute(&buf, v.Param)
+			if err := tmpl.Execute(&buf, v.Param); err != nil {
+				buf.Reset()
+				buf.WriteString("Error: " + err.Error())
+			}
+		} else {
+			buf.Reset()
+			buf.WriteString("Error: " + err.Error())
 		}
 		example := k
 		if v.Param != 0 {
