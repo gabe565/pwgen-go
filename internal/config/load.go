@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"path/filepath"
 	"strings"
@@ -73,14 +74,18 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 		}
 
 		if !bytes.Equal(cfgContents, newCfg) {
+			dirExists := !cfgNotExists
 			if cfgNotExists {
-				if err := os.MkdirAll(filepath.Dir(conf.File), 0o777); err != nil {
-					return nil, err
+				if err := os.MkdirAll(filepath.Dir(conf.File), 0o777); err == nil {
+					dirExists = true
+				} else {
+					slog.Warn("Failed to create config dir", "err", err)
 				}
 			}
-
-			if err := os.WriteFile(conf.File, newCfg, 0o666); err != nil {
-				return nil, err
+			if dirExists {
+				if err := os.WriteFile(conf.File, newCfg, 0o666); err != nil {
+					slog.Warn("Failed to write config", "err", err)
+				}
 			}
 		}
 	}
