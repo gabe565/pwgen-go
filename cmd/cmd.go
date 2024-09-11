@@ -10,7 +10,7 @@ import (
 	"github.com/gabe565/pwgen-go/cmd/profiles"
 	"github.com/gabe565/pwgen-go/internal/config"
 	"github.com/gabe565/pwgen-go/internal/config/completions"
-	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
+	"github.com/gabe565/pwgen-go/internal/funcmap"
 	"github.com/gabe565/pwgen-go/internal/wordlist"
 	"github.com/muesli/termenv"
 	"github.com/spf13/cobra"
@@ -69,7 +69,7 @@ func run(cmd *cobra.Command, _ []string) error {
 		return err
 	}
 
-	tmpl, err := template.New("").Funcs(pwgen_template.FuncMap(wl)).Parse(conf.Template)
+	tmpl, err := template.New("").Funcs(funcmap.New(wl)).Parse(conf.Template)
 	if err != nil {
 		return fmt.Errorf("%w: %w", ErrInvalidFormat, err)
 	}

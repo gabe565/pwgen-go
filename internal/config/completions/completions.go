@@ -9,7 +9,7 @@ import (
 	"text/template"
 
 	"github.com/gabe565/pwgen-go/internal/config"
-	pwgen_template "github.com/gabe565/pwgen-go/internal/template"
+	"github.com/gabe565/pwgen-go/internal/funcmap"
 	"github.com/gabe565/pwgen-go/internal/wordlist"
 	"github.com/spf13/cobra"
 )
@@ -45,7 +45,7 @@ func completeProfile(cmd *cobra.Command, _ []string, toComplete string) ([]strin
 	if err != nil {
 		return nil, cobra.ShellCompDirectiveError
 	}
-	funcMap := pwgen_template.FuncMap(wl)
+	funcMap := funcmap.New(wl)
 	var buf bytes.Buffer
 	var longest int
 	for name, v := range conf.Profiles {
