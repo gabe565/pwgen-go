@@ -99,19 +99,19 @@ To change the number of generated results, pass a different number to the `--cou
 Also see the generated [docs](docs/pwgen.md).
 
 ### Examples
-By default, pwgen will generate passwords with 3 words from the [EFF Long Wordlist](https://www.eff.org/dice) and a random number:
+By default, pwgen will generate passwords with 4 words from the [EFF Long Wordlist](https://www.eff.org/dice) and a random number:
 ```shell
 $ pwgen
-Pebbly1-Destitute-Shelve
-Mushiness-Possibly0-Trustee
-Trimness-Freebase2-Spotless
-Recall7-Uncrushed-Agreeing
-Tavern-Moustache1-Scrubber
-Lyrically2-Comic-Imitate
-Idiom-Jockey-Subheader6
-Blot-Sympathy9-Nurture
-Womanhood6-Capsize-Zigzagged
-Unwomanly-Unwashed1-Urchin
+Pebbly1-Destitute-Shelve-Renter
+Mushiness-Possibly0-Trustee-Outfit
+Trimness-Freebase-Spotless-Manmade2
+Recall7-Uncrushed-Agreeing-Crepe
+Tavern-Moustache1-Scrubber-Mashed
+Lyrically2-Comic-Imitate-Victory
+Idiom-Jockey-Subheader6-Scallop
+Blot-Sympathy-Nurture-Spotter5
+Womanhood6-Capsize-Zigzagged-Siesta
+Unwomanly-Unwashed-Urchin-Empty1
 ```
 Other [profiles](docs/pwgen_profiles.md) can be used with the `--profile` (`-p`) flag:
 ```shell
