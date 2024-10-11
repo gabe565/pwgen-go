@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-//go:generate enumer -type Meta -transform lower -text -output meta_string.go
+//go:generate go run github.com/dmarkham/enumer -type Meta -transform lower -text -output meta_string.go
 
 type Meta uint8
 
