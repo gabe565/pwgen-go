@@ -3,9 +3,9 @@ package funcmap
 import (
 	"text/template"
 
+	"gabe565.com/pwgen/internal/rand"
+	"gabe565.com/pwgen/internal/wordlist"
 	"github.com/Masterminds/sprig/v3"
-	"github.com/gabe565/pwgen-go/internal/rand"
-	"github.com/gabe565/pwgen-go/internal/wordlist"
 )
 
 func New(list wordlist.Wordlist) template.FuncMap {

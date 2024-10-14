@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"os"
 
-	"github.com/gabe565/pwgen-go/cmd"
+	"gabe565.com/pwgen/cmd"
 )
 
 var version = "beta"

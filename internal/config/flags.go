@@ -3,7 +3,7 @@ package config
 import (
 	"strings"
 
-	"github.com/gabe565/pwgen-go/internal/wordlist"
+	"gabe565.com/pwgen/internal/wordlist"
 	"github.com/spf13/cobra"
 )
 

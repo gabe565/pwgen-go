@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/gabe565/pwgen-go/internal/config"
+	"gabe565.com/pwgen/internal/config"
 	"github.com/pelletier/go-toml/v2"
 )
 

@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"gabe565.com/pwgen/internal/wordlist"
 	. "github.com/dave/jennifer/jen" //nolint:revive,stylecheck
-	"github.com/gabe565/pwgen-go/internal/wordlist"
 )
 
 func main() {

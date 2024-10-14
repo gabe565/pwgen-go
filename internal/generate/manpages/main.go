@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gabe565/pwgen-go/cmd"
+	"gabe565.com/pwgen/cmd"
 	"github.com/spf13/cobra/doc"
 	flag "github.com/spf13/pflag"
 )

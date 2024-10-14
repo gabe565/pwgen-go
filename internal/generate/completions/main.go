@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/gabe565/pwgen-go/cmd"
+	"gabe565.com/pwgen/cmd"
 	flag "github.com/spf13/pflag"
 )
 

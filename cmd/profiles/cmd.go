@@ -8,9 +8,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/gabe565/pwgen-go/internal/config"
-	"github.com/gabe565/pwgen-go/internal/funcmap"
-	"github.com/gabe565/pwgen-go/internal/wordlist"
+	"gabe565.com/pwgen/internal/config"
+	"gabe565.com/pwgen/internal/funcmap"
+	"gabe565.com/pwgen/internal/wordlist"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
 	"github.com/spf13/cobra"

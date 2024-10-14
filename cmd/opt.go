@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/gabe565/pwgen-go/cmd/profiles"
+	"gabe565.com/pwgen/cmd/profiles"
 	"github.com/spf13/cobra"
 )
 

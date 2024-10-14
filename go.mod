@@ -1,4 +1,4 @@
-module github.com/gabe565/pwgen-go
+module gabe565.com/pwgen
 
 go 1.23.1
 

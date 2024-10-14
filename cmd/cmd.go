@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"text/template"
 
-	"github.com/gabe565/pwgen-go/cmd/profiles"
-	"github.com/gabe565/pwgen-go/internal/config"
-	"github.com/gabe565/pwgen-go/internal/config/completions"
-	"github.com/gabe565/pwgen-go/internal/funcmap"
+	"gabe565.com/pwgen/cmd/profiles"
+	"gabe565.com/pwgen/internal/config"
+	"gabe565.com/pwgen/internal/config/completions"
+	"gabe565.com/pwgen/internal/funcmap"
 	"github.com/muesli/termenv"
 	"github.com/spf13/cobra"
 )

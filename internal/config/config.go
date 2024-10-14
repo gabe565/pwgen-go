@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gabe565/pwgen-go/internal/wordlist"
+	"gabe565.com/pwgen/internal/wordlist"
 )
 
 type Config struct {

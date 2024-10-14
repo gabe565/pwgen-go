@@ -3,7 +3,7 @@ package wordlist
 import (
 	"strconv"
 
-	"github.com/gabe565/pwgen-go/internal/rand"
+	"gabe565.com/pwgen/internal/rand"
 )
 
 //go:generate go run ./generate

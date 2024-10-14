@@ -9,7 +9,7 @@ import (
 	"testing"
 	"unicode"
 
-	"github.com/gabe565/pwgen-go/internal/wordlist"
+	"gabe565.com/pwgen/internal/wordlist"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
