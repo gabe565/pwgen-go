@@ -11,11 +11,12 @@ import (
 	"gabe565.com/pwgen/internal/config"
 	"gabe565.com/pwgen/internal/config/completions"
 	"gabe565.com/pwgen/internal/funcmap"
+	"gabe565.com/utils/cobrax"
 	"github.com/muesli/termenv"
 	"github.com/spf13/cobra"
 )
 
-func New(opts ...Option) *cobra.Command {
+func New(opts ...cobrax.Option) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "pwgen",
 		Short: "Generate passphrases",

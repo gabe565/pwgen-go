@@ -3,6 +3,7 @@ package cmd
 import (
 	"testing"
 
+	"gabe565.com/utils/cobrax"
 	"github.com/muesli/termenv"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -22,6 +23,6 @@ func TestWithRaw(t *testing.T) {
 }
 
 func TestWithVersion(t *testing.T) {
-	cmd := New(WithVersion("1.0.0"))
+	cmd := New(cobrax.WithVersion("1.0.0"))
 	assert.NotEmpty(t, cmd.Version)
 }

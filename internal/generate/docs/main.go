@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"gabe565.com/pwgen/cmd"
+	"gabe565.com/utils/cobrax"
 	"github.com/spf13/cobra/doc"
 )
 
@@ -18,7 +19,7 @@ func main() {
 		panic(err)
 	}
 
-	root := cmd.New(cmd.WithVersion("beta"), cmd.WithMarkdown())
+	root := cmd.New(cobrax.WithVersion("beta"), cmd.WithMarkdown())
 
 	profCmd, _, err := root.Find([]string{"profiles"})
 	if err != nil {
