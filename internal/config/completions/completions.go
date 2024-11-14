@@ -2,7 +2,6 @@ package completions
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -11,32 +10,29 @@ import (
 	"gabe565.com/pwgen/internal/config"
 	"gabe565.com/pwgen/internal/funcmap"
 	"gabe565.com/pwgen/internal/wordlist"
+	"gabe565.com/utils/must"
 	"github.com/spf13/cobra"
 )
 
 func Register(cmd *cobra.Command) {
-	if err := errors.Join(
-		cmd.RegisterFlagCompletionFunc(config.FlagConfig,
-			func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
-				return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
-			},
-		),
-		cmd.RegisterFlagCompletionFunc(config.FlagCount, cobra.NoFileCompletions),
-		cmd.RegisterFlagCompletionFunc(config.FlagWordlist,
-			func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
-				lists := wordlist.MetaValues()
-				values := make([]string, 0, len(lists))
-				for _, wl := range lists {
-					values = append(values, wl.String()+"\t"+strings.ReplaceAll(wl.Description(), "\n", " "))
-				}
-				return values, cobra.ShellCompDirectiveNoFileComp
-			},
-		),
-		cmd.RegisterFlagCompletionFunc(config.FlagTemplate, cobra.NoFileCompletions),
-		cmd.RegisterFlagCompletionFunc(config.FlagProfile, completeProfile),
-	); err != nil {
-		panic(err)
-	}
+	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagConfig,
+		func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+			return []string{"toml"}, cobra.ShellCompDirectiveFilterFileExt
+		},
+	))
+	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagCount, cobra.NoFileCompletions))
+	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagWordlist,
+		func(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
+			lists := wordlist.MetaValues()
+			values := make([]string, 0, len(lists))
+			for _, wl := range lists {
+				values = append(values, wl.String()+"\t"+strings.ReplaceAll(wl.Description(), "\n", " "))
+			}
+			return values, cobra.ShellCompDirectiveNoFileComp
+		},
+	))
+	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagTemplate, cobra.NoFileCompletions))
+	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagProfile, completeProfile))
 }
 
 func completeProfile(cmd *cobra.Command, _ []string, toComplete string) ([]string, cobra.ShellCompDirective) {
