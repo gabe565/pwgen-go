@@ -3,7 +3,7 @@ module gabe565.com/pwgen
 go 1.23.3
 
 require (
-	gabe565.com/utils v0.0.0-20241114041836-facb2857c9b1
+	gabe565.com/utils v0.0.0-20250203234441-e4ad4d8bf6fc
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/dave/jennifer v1.7.1
 	github.com/dmarkham/enumer v1.5.10
@@ -17,7 +17,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.3
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 )
 
 require (
