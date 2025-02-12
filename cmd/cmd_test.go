@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"context"
 	"os"
 	"regexp"
 	"slices"
@@ -15,11 +14,8 @@ import (
 )
 
 func Test_run(t *testing.T) {
-	tmp, err := os.CreateTemp("", "pwgen-test-config-*.toml")
+	tmp, err := os.CreateTemp(t.TempDir(), "pwgen-test-config-*.toml")
 	require.NoError(t, err)
-	t.Cleanup(func() {
-		_ = os.Remove(tmp.Name())
-	})
 	_ = tmp.Close()
 
 	defaultArgs := []string{"--config=" + tmp.Name()}
@@ -104,7 +100,7 @@ func Test_run(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := New()
-			cmd.SetContext(context.Background())
+			cmd.SetContext(t.Context())
 			tt.args = append(defaultArgs, tt.args...)
 			cmd.SetArgs(tt.args)
 			var stdout strings.Builder
