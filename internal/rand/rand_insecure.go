@@ -4,6 +4,7 @@ package rand
 
 import (
 	"math/rand/v2"
+	"strings"
 
 	"github.com/fatih/color"
 )
@@ -19,9 +20,10 @@ This binary was built with an insecure flag that generates predictable passwords
 var globalRand = rand.New(rand.NewPCG(1, 2))
 
 func BinaryN(n int) (string, error) {
-	v := make([]byte, 0, n)
+	var s strings.Builder
+	s.Grow(n)
 	for range n {
-		v = append(v, byte(globalRand.Uint64()))
+		s.WriteByte(byte(globalRand.Uint64()))
 	}
-	return string(v), nil
+	return s.String(), nil
 }

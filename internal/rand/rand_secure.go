@@ -9,6 +9,7 @@ import (
 	"log/slog"
 	"math/rand/v2"
 	"os"
+	"unsafe"
 )
 
 //nolint:gochecknoglobals,gosec
@@ -19,7 +20,7 @@ func BinaryN(n int) (string, error) {
 	if err := binary.Read(cryptoRand.Reader, binary.BigEndian, &v); err != nil {
 		return "", err
 	}
-	return string(v), nil
+	return unsafe.String(unsafe.SliceData(v), len(v)), nil
 }
 
 type cryptoSource struct{}

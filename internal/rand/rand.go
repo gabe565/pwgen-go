@@ -1,5 +1,7 @@
 package rand
 
+import "strings"
+
 func IntN(n int) int {
 	return globalRand.IntN(n)
 }
@@ -25,17 +27,19 @@ func AlphaNum(n int) string {
 
 func ASCII(n int) string {
 	const minByte, maxByte = ' ', '~'
-	result := make([]byte, 0, n)
+	var s strings.Builder
+	s.Grow(n)
 	for range n {
-		result = append(result, byte(globalRand.IntN(maxByte+1-minByte)+minByte))
+		s.WriteByte(byte(globalRand.IntN(maxByte+1-minByte) + minByte))
 	}
-	return string(result)
+	return s.String()
 }
 
 func FromString(letters string, n int) string {
-	result := make([]byte, 0, n)
+	var s strings.Builder
+	s.Grow(n)
 	for range n {
-		result = append(result, letters[globalRand.IntN(len(letters))])
+		s.WriteByte(letters[globalRand.IntN(len(letters))])
 	}
-	return string(result)
+	return s.String()
 }
