@@ -13,6 +13,7 @@ import (
 	"gabe565.com/pwgen/internal/config"
 	"gabe565.com/pwgen/internal/funcmap"
 	"gabe565.com/pwgen/internal/wordlist"
+	"github.com/fatih/color"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
 	"github.com/spf13/cobra"
@@ -73,7 +74,13 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 	style.Color.Border = text.Colors{text.FgHiBlack}
 	style.Color.Separator = style.Color.Border
 	t.SetStyle(style)
-	t.AppendHeader(table.Row{"Name", "Example", "Template"})
+	bold := color.New(color.Bold).Sprint
+	switch format {
+	case formatMarkdown:
+		t.AppendHeader(table.Row{"Name", "Example", "Template"})
+	default:
+		t.AppendHeader(table.Row{bold("Name"), bold("Example"), bold("Template")})
+	}
 
 	profiles := config.New().Profiles.Named()
 	slices.SortStableFunc(profiles, func(a, b config.NamedProfile) int {
@@ -105,7 +112,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 		case formatMarkdown:
 			t.AppendRow(table.Row{"`" + name + "`", "<pre>" + buf.String() + "</pre>", "<pre>" + v.Template + "</pre>"})
 		default:
-			t.AppendRow(table.Row{name, buf.String(), v.Template})
+			t.AppendRow(table.Row{bold(name), buf.String(), v.Template})
 		}
 	}
 
