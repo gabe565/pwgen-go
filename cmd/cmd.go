@@ -29,7 +29,6 @@ func New(opts ...cobrax.Option) *cobra.Command {
 
 	conf := config.New()
 	conf.RegisterFlags(cmd)
-	cmd.SetContext(config.NewContext(context.Background(), conf))
 	completions.Register(cmd)
 
 	cmd.AddCommand(profiles.New())
@@ -37,6 +36,10 @@ func New(opts ...cobrax.Option) *cobra.Command {
 	for _, opt := range opts {
 		opt(cmd)
 	}
+	if cmd.Context() == nil {
+		cmd.SetContext(context.Background())
+	}
+	cmd.SetContext(config.NewContext(cmd.Context(), conf))
 
 	return cmd
 }

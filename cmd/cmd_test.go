@@ -99,8 +99,7 @@ func Test_run(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			cmd := New()
-			cmd.SetContext(t.Context())
+			cmd := New(WithContext(t.Context()))
 			tt.args = append(defaultArgs, tt.args...)
 			cmd.SetArgs(tt.args)
 			var stdout strings.Builder
