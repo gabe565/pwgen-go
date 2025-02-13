@@ -8,6 +8,7 @@ import (
 	"testing"
 	"unicode"
 
+	"gabe565.com/pwgen/internal/config"
 	"gabe565.com/pwgen/internal/wordlist"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -156,6 +157,17 @@ func Test_run(t *testing.T) {
 			if tt.want.lineCount != -1 {
 				assert.Equal(t, tt.want.lineCount, lineCount)
 			}
+		})
+	}
+
+	for _, profile := range config.New().Profiles.Named() {
+		t.Run("profile "+profile.Name, func(t *testing.T) {
+			cmd := New(WithContext(t.Context()))
+			cmd.SetArgs(append(defaultArgs, "--profile="+profile.Name))
+			var stdout strings.Builder
+			cmd.SetOut(&stdout)
+			require.NoError(t, cmd.Execute())
+			require.NoError(t, err)
 		})
 	}
 }
