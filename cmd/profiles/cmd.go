@@ -87,6 +87,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 		}
 
 		var buf strings.Builder
+		buf.Grow(v.Param)
 		tmpl, err := tmpl.New("").Parse(v.Template)
 		if err == nil {
 			_ = tmpl.Execute(&buf, v.Param)
