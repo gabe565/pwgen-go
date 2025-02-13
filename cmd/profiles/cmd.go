@@ -2,7 +2,9 @@ package profiles
 
 import (
 	"cmp"
+	"fmt"
 	"io"
+	"os"
 	"slices"
 	"strconv"
 	"strings"
@@ -89,8 +91,14 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 		var buf strings.Builder
 		buf.Grow(v.Param)
 		tmpl, err := tmpl.New("").Parse(v.Template)
-		if err == nil {
-			_ = tmpl.Execute(&buf, v.Param)
+		if err != nil {
+			cmd.PrintErrln(cmd.ErrPrefix(), fmt.Errorf("failed to parse profile %q: %w", name, err))
+			os.Exit(1)
+		}
+
+		if err := tmpl.Execute(&buf, v.Param); err != nil {
+			cmd.PrintErrln(cmd.ErrPrefix(), fmt.Errorf("failed to execute profile %q: %w", name, err))
+			os.Exit(1)
 		}
 
 		switch format {
