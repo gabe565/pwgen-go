@@ -81,7 +81,10 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 
 	t.AppendHeader(table.Row{"Name", "Example", "Template"})
 	for _, v := range profiles {
-		name := v.Name + ":" + strconv.Itoa(v.Param)
+		name := v.Name
+		if v.Param != 0 {
+			name += ":" + strconv.Itoa(v.Param)
+		}
 
 		var buf strings.Builder
 		tmpl, err := template.New("").Funcs(funcmap.New(words)).Parse(v.Template)
