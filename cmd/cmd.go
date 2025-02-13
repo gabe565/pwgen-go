@@ -72,7 +72,14 @@ func run(cmd *cobra.Command, _ []string) error {
 		return err
 	}
 
-	tmpl, err := template.New("").Funcs(funcmap.New(wl)).Parse(conf.Template)
+	tmpl := template.New("").Funcs(funcmap.New(wl))
+	for name, profile := range conf.Profiles {
+		if _, err := tmpl.New(name).Parse(profile.Template); err != nil {
+			return err
+		}
+	}
+
+	tmpl, err = tmpl.New("").Parse(conf.Template)
 	if err != nil {
 		return fmt.Errorf("%w: %w", ErrInvalidFormat, err)
 	}
