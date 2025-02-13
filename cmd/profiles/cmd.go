@@ -71,15 +71,15 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 	style.Color.Border = text.Colors{text.FgHiBlack}
 	style.Color.Separator = style.Color.Border
 	t.SetStyle(style)
+	t.AppendHeader(table.Row{"Name", "Example", "Template"})
 
 	profiles := config.New().Profiles.Named()
 	slices.SortStableFunc(profiles, func(a, b config.NamedProfile) int {
 		return cmp.Compare(a.Name, b.Name)
 	})
-
 	words := wordlist.EFF_Long()
+	tmpl := template.New("").Funcs(funcmap.New(words))
 
-	t.AppendHeader(table.Row{"Name", "Example", "Template"})
 	for _, v := range profiles {
 		name := v.Name
 		if v.Param != 0 {
@@ -87,7 +87,7 @@ func helpFunc(cmd *cobra.Command, _ []string) {
 		}
 
 		var buf strings.Builder
-		tmpl, err := template.New("").Funcs(funcmap.New(words)).Parse(v.Template)
+		tmpl, err := tmpl.New("").Parse(v.Template)
 		if err == nil {
 			_ = tmpl.Execute(&buf, v.Param)
 		}
