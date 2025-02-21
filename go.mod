@@ -12,7 +12,7 @@ require (
 	github.com/knadh/koanf/providers/rawbytes v0.1.0
 	github.com/knadh/koanf/providers/structs v0.1.0
 	github.com/knadh/koanf/v2 v2.1.2
-	github.com/muesli/termenv v0.15.2
+	github.com/muesli/termenv v0.16.0
 	github.com/pelletier/go-toml/v2 v2.2.3
 	github.com/spf13/cobra v1.9.0
 	github.com/spf13/pflag v1.0.6
