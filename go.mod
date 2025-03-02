@@ -3,7 +3,7 @@ module gabe565.com/pwgen
 go 1.24.0
 
 require (
-	gabe565.com/utils v0.0.0-20250203234441-e4ad4d8bf6fc
+	gabe565.com/utils v0.0.0-20250302063333-ede73b14282c
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/dave/jennifer v1.7.1
 	github.com/fatih/color v1.18.0
@@ -14,7 +14,7 @@ require (
 	github.com/knadh/koanf/v2 v2.1.2
 	github.com/muesli/termenv v0.15.2
 	github.com/pelletier/go-toml/v2 v2.2.3
-	github.com/spf13/cobra v1.9.0
+	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
 	github.com/stretchr/testify v1.10.0
 )
