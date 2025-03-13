@@ -97,8 +97,6 @@ To change the number of generated results, pass a number to the `--count` (`-c`)
 
 Pwgen takes advantage of shell completion; for example, when choosing a profile, try `pwgen <TAB><TAB>`.
 
-All random functions use cryptographically secure (`crypto/rand`) random strings.
-
 Also see the generated [docs](docs/pwgen.md).
 
 ### Examples
@@ -148,3 +146,10 @@ An example configuration is also available at [`config_example.toml`](config_exa
 Templated passphrases are generated using Go's [text/template](https://pkg.go.dev/text/template) package.
 
 All [Sprig functions](https://masterminds.github.io/sprig/) are available, plus some extras documented [here](docs/pwgen_functions.md).
+
+## Security
+
+- **Local Generation:** All passphrases are generated directly on your device. No data is sent or received externally.
+- **Bundled Resources:** The EFF wordlists are embedded within the binary, ensuring no external data is fetched during generation.
+- **Cryptographic Quality:** All random functions use cryptographically secure (`crypto/rand`) random strings.
+- **Anonymity by Design:** By default, 10 passphrases are generated to help obscure which one you choose.
