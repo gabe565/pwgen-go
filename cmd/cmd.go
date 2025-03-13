@@ -18,12 +18,13 @@ import (
 
 func New(opts ...cobrax.Option) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "pwgen",
+		Use:   "pwgen [profile | template]",
 		Short: "Generate passphrases",
 		Long:  long(false),
 		RunE:  run,
+		Args:  cobra.MaximumNArgs(1),
 
-		ValidArgsFunction: cobra.NoFileCompletions,
+		ValidArgsFunction: validArgs,
 		DisableAutoGenTag: true,
 	}
 
@@ -44,6 +45,13 @@ func New(opts ...cobrax.Option) *cobra.Command {
 	return cmd
 }
 
+func validArgs(cmd *cobra.Command, args []string, toComplete string) ([]cobra.Completion, cobra.ShellCompDirective) {
+	if len(args) != 0 {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	}
+	return completions.Profile(cmd, args, toComplete)
+}
+
 func long(rawText bool) string {
 	var link string
 	if rawText {
@@ -59,8 +67,8 @@ var (
 	ErrTemplate      = errors.New("template error")
 )
 
-func run(cmd *cobra.Command, _ []string) error {
-	conf, err := config.Load(cmd, true)
+func run(cmd *cobra.Command, args []string) error {
+	conf, err := config.Load(cmd, args, true)
 	if err != nil {
 		return err
 	}

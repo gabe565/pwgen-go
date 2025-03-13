@@ -32,11 +32,11 @@ func Register(cmd *cobra.Command) {
 		},
 	))
 	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagTemplate, cobra.NoFileCompletions))
-	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagProfile, completeProfile))
+	must.Must(cmd.RegisterFlagCompletionFunc(config.FlagProfile, Profile))
 }
 
-func completeProfile(cmd *cobra.Command, _ []string, toComplete string) ([]string, cobra.ShellCompDirective) {
-	conf, err := config.Load(cmd, false)
+func Profile(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+	conf, err := config.Load(cmd, args, false)
 	if err != nil {
 		return nil, cobra.ShellCompDirectiveError
 	}

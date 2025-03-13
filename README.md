@@ -88,17 +88,21 @@ Download and run the [latest release binary](https://github.com/gabe565/pwgen-go
 </details>
 
 ## Usage
-Run `pwgen` to generate a list of random passphrases. All random functions use cryptographically secure (`crypto/rand`) random strings.
 
-Predefined profiles can be used with the `--profile` (`-p`) flag. See [`pwgen profiles`](docs/pwgen_profiles.md) for a list of defaults.
+Run `pwgen` to generate a list of random passphrases.
 
-Alternatively, the template can be directly customized with the `--template` (`-t`) flag.
+Predefined profiles are available — see [`pwgen profiles`](docs/pwgen_profiles.md) for a list of defaults. You can specify a profile or a template as a positional argument. If the argument resembles a Go template, it will be interpreted as such; otherwise, it will be treated as a profile. (For explicit control, you can also use the `--template` (`-t`) or `--profile` (`-p`) flags.)
 
-To change the number of generated results, pass a different number to the `--count` (`-c`) flag.
+To change the number of generated results, pass a number to the `--count` (`-c`) flag.
+
+Pwgen takes advantage of shell completion; for example, when choosing a profile, try `pwgen <TAB><TAB>`.
+
+All random functions use cryptographically secure (`crypto/rand`) random strings.
 
 Also see the generated [docs](docs/pwgen.md).
 
 ### Examples
+
 By default, pwgen will generate passwords with 4 words from the [EFF Long Wordlist](https://www.eff.org/dice) and a random number:
 ```shell
 $ pwgen
@@ -113,21 +117,22 @@ Blot-Sympathy-Nurture-Spotter5
 Womanhood6-Capsize-Zigzagged-Siesta
 Unwomanly-Unwashed-Urchin-Empty1
 ```
-Other [profiles](docs/pwgen_profiles.md) can be used with the `--profile` (`-p`) flag:
+#### Profiles
+
 ```shell
-$ pwgen --count 1 -p alphanum:16
+$ pwgen -c1 alphanum:16
 cFAutu4OizPQ0d3N
-$ pwgen --count 1 -p words:5
+$ pwgen -c1 words:5
 tinker coagulant bundle gave deviator
-$ pwgen --count 1 -p pin:6
+$ pwgen -c1 pin:6
 771283
 ```
-Or templates can be used directly:
+#### Templates
+
 ```shell
-$ pwgen --count 1 -t '{{ binary 16 | b64enc }}'
+$ pwgen -c1 '{{ binary 16 | b64enc }}'
 kENvfNLHw/GcwID3TGEIgg==
 ```
-Most flags have shell completions available, for example when choosing a profile, try `pwgen -p <TAB><TAB>`.
 
 ## Configuration
 

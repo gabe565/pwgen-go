@@ -25,7 +25,8 @@ func flagToConfigMapping() map[string]string {
 
 var ErrProfileNotFound = errors.New("profile not found")
 
-func Load(cmd *cobra.Command, save bool) (*Config, error) {
+//nolint:gocyclo
+func Load(cmd *cobra.Command, args []string, save bool) (*Config, error) {
 	k := koanf.New(".")
 
 	conf, ok := FromContext(cmd.Context())
@@ -106,11 +107,32 @@ func Load(cmd *cobra.Command, save bool) (*Config, error) {
 		return nil, err
 	}
 
-	if conf.Profile.Name != "" && (conf.Template == "" || cmd.Flags().Lookup(FlagProfile).Changed && !cmd.Flags().Lookup(FlagTemplate).Changed) {
-		profile, ok := conf.Profiles[conf.Profile.Name]
-		if !ok {
+	var profile Profile
+	if len(args) >= 1 {
+		// Load arg as profile or template
+		name := args[0]
+		if strings.Contains(name, "{{") {
+			conf.Template = name
+		} else {
+			var ref ProfileRef
+			if err := ref.UnmarshalText([]byte(name)); err != nil {
+				return nil, fmt.Errorf("%w: %s", ErrProfileNotFound, name)
+			}
+
+			conf.Profile = ref
+
+			if profile, ok = conf.Profiles[ref.Name]; !ok {
+				return nil, fmt.Errorf("%w: %s", ErrProfileNotFound, name)
+			}
+		}
+	} else if conf.Profile.Name != "" && (conf.Template == "" || cmd.Flags().Lookup(FlagProfile).Changed && !cmd.Flags().Lookup(FlagTemplate).Changed) {
+		// Load profile flag
+		var ok bool
+		if profile, ok = conf.Profiles[conf.Profile.Name]; !ok {
 			return nil, fmt.Errorf("%w: %s", ErrProfileNotFound, conf.Profile.Name)
 		}
+	}
+	if profile.Template != "" {
 		conf.Template = profile.Template
 		if conf.Profile.Param != 0 {
 			conf.Param = conf.Profile.Param

@@ -7,7 +7,7 @@ Generate passphrases
 Generate passphrases using the EFF Diceware Wordlists.
 
 ```
-pwgen [flags]
+pwgen [profile | template] [flags]
 ```
 
 ### Options
