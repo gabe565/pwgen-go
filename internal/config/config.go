@@ -74,10 +74,10 @@ func New() *Config {
 			"alphanum": {"{{ alphaNum . }}", 32},
 			"ascii":    {"{{ ascii . }}", 32},
 			"diceware": {`{{ wordsWithNum . | join "-" | title }}`, 4},
+			"django":   {`{{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}`, 0},
+			"laravel":  {`base64:{{ binary 32 | b64enc }}`, 0},
 			"pin":      {"{{ num . }}", 6},
 			"words":    {`{{ words . | join " " }}`, 4},
-			"laravel":  {`base64:{{ binary 32 | b64enc }}`, 0},
-			"django":   {`{{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}`, 0},
 		},
 		Wordlist: wordlist.Long,
 	}
