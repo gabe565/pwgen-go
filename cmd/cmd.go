@@ -26,6 +26,8 @@ func New(opts ...cobrax.Option) *cobra.Command {
 
 		ValidArgsFunction: validArgs,
 		DisableAutoGenTag: true,
+		SilenceErrors:     true,
+		SilenceUsage:      true,
 	}
 
 	conf := config.New()
@@ -72,8 +74,6 @@ func run(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-
-	cmd.SilenceUsage = true
 
 	wl, err := conf.Wordlist.List()
 	if err != nil {
