@@ -3,7 +3,7 @@ module gabe565.com/pwgen
 go 1.24.1
 
 require (
-	gabe565.com/utils v0.0.0-20250203234441-e4ad4d8bf6fc
+	gabe565.com/utils v0.0.0-20250302063333-ede73b14282c
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/dave/jennifer v1.7.1
 	github.com/fatih/color v1.18.0
