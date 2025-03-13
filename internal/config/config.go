@@ -72,6 +72,7 @@ func New() *Config {
 		Profiles: map[string]Profile{
 			"alpha":    {"{{ alpha . }}", 32},
 			"alphanum": {"{{ alphaNum . }}", 32},
+			"base64":   {"{{ binary . | b64enc }}", 32},
 			"ascii":    {"{{ ascii . }}", 32},
 			"diceware": {`{{ wordsWithNum . | join "-" | title }}`, 4},
 			"django":   {`{{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}`, 0},

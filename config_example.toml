@@ -21,6 +21,10 @@ param = 32
 template = '{{ ascii . }}'
 param = 32
 
+[profiles.base64]
+template = '{{ binary . | b64enc }}'
+param = 32
+
 [profiles.diceware]
 template = '{{ wordsWithNum . | join "-" | title }}'
 param = 4
