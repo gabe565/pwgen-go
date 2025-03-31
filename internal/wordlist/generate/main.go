@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"gabe565.com/pwgen/internal/wordlist"
-	. "github.com/dave/jennifer/jen" //nolint:revive,stylecheck
+	. "github.com/dave/jennifer/jen" //nolint:revive,staticcheck
 )
 
 func main() {
@@ -69,7 +69,7 @@ func templateFile(ctx context.Context, meta wordlist.Meta) error {
 		),
 	)
 	if scanner.Err() != nil {
-		return err
+		return scanner.Err()
 	}
 	if count == 0 {
 		return errNoWords

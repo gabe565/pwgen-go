@@ -52,17 +52,21 @@ func SetMarkdown(cmd *cobra.Command, v bool) {
 	}
 }
 
-func helpFunc(cmd *cobra.Command, _ []string) {
+func helpFunc(cmd *cobra.Command, _ []string) { //nolint:funlen
 	format := cmd.Annotations[formatKey]
 
 	var result strings.Builder
 	switch format {
 	case formatMarkdown:
-		result.WriteString("The `--profile` flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
-			"## Default Profiles\n\n")
+		result.WriteString(
+			"The `--profile` flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
+				"## Default Profiles\n\n",
+		)
 	default:
-		result.WriteString("The --profile flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
-			"Default Profiles:\n")
+		result.WriteString(
+			"The --profile flag lets you use preconfigured templates with an optional colon-separated parameter.\n\n" +
+				"Default Profiles:\n",
+		)
 	}
 
 	t := table.NewWriter()

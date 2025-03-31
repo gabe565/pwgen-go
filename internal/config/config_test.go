@@ -46,7 +46,7 @@ func TestProfileRef_UnmarshalText(t *testing.T) {
 		t.Run(tt.args.text, func(t *testing.T) {
 			var p ProfileRef
 			tt.wantErr(t, p.UnmarshalText([]byte(tt.args.text)))
-			assert.EqualValues(t, tt.want, p)
+			assert.Equal(t, tt.want, p)
 		})
 	}
 }

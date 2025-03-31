@@ -6,6 +6,7 @@ import (
 
 //go:generate go tool enumer -type Meta -transform lower -text -output meta_string.go
 
+//nolint:recvcheck
 type Meta uint8
 
 const (

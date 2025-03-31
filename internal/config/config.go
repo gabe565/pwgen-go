@@ -10,12 +10,12 @@ import (
 type Config struct {
 	File string `toml:"-"`
 
-	Count    int           `toml:"count" comment:"Number of passphrases to generate."`
-	Profile  ProfileRef    `toml:"profile" comment:"Default profile used to generate passphrases."`
+	Count    int           `toml:"count"    comment:"Number of passphrases to generate."`
+	Profile  ProfileRef    `toml:"profile"  comment:"Default profile used to generate passphrases."`
 	Param    any           `toml:"-"`
 	Profiles ProfileMap    `toml:"profiles" comment:"Preconfigured profiles and default parameters."`
 	Wordlist wordlist.Meta `toml:"wordlist" comment:"Wordlist to use. (one of: long, short1, short2)"`
-	Template string        `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile." `
+	Template string        `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile."`
 }
 
 type ProfileMap map[string]Profile

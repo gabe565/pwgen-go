@@ -25,8 +25,7 @@ func flagToConfigMapping() map[string]string {
 
 var ErrProfileNotFound = errors.New("profile not found")
 
-//nolint:gocyclo
-func Load(cmd *cobra.Command, args []string, save bool) (*Config, error) {
+func Load(cmd *cobra.Command, args []string, save bool) (*Config, error) { //nolint:gocyclo,gocognit,cyclop,funlen
 	k := koanf.New(".")
 
 	conf, ok := FromContext(cmd.Context())
