@@ -128,8 +128,8 @@ $ pwgen -c1 pin:6
 #### Templates
 
 ```shell
-$ pwgen -c1 '{{ binary 16 | b64enc }}'
-kENvfNLHw/GcwID3TGEIgg==
+$ pwgen -c1 '{{ words 3 | join "-" | upper }}'
+HAPPY-BLANK-SAFEHOUSE
 ```
 
 ## Configuration

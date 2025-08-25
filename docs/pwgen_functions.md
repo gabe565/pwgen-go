@@ -7,7 +7,7 @@
 - [`alpha`](#alpha)
 - [`alphaNum`](#alphaNum)
 - [`ascii`](#ascii)
-- [`binary`](#binary)
+- [`bytes`](#bytes)
 - [`shuffle`](#shuffle)
 - [`randFromStr`](#randFromStr)
 
@@ -92,14 +92,14 @@ Random letters, numbers, and symbols will be generated with the length determine
   {{ ascii 32 }}
   ```
 
-## `binary`
+## `bytes`
 
-Random binary data will be generated with number of bytes determined by the parameter. Useful with [`b64enc`](https://masterminds.github.io/sprig/encoding.html).
+Random binary data will be generated with number of bytes determined by the parameter. The resulting string will be base64-encoded.
 
 ### Examples
 - Generate a random base64 string with 32 bytes of data:
   ```gotemplate
-  {{ binary 32 | b64enc }}
+  {{ bytes 32 }}
   ```
 
 ## `shuffle`
