@@ -21,8 +21,8 @@ param = 32
 template = '{{ ascii . }}'
 param = 32
 
-[profiles.base64]
-template = '{{ binary . | b64enc }}'
+[profiles.bytes]
+template = '{{ bytes . }}'
 param = 32
 
 [profiles.diceware]
