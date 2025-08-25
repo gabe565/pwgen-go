@@ -3,34 +3,44 @@
 package rand
 
 import (
+	"bufio"
 	cryptoRand "crypto/rand"
 	"encoding/binary"
 	"fmt"
+	"io"
 	"log/slog"
 	"math/rand/v2"
 	"os"
-	"unsafe"
 )
 
 //nolint:gochecknoglobals,gosec
-var globalRand = rand.New(cryptoSource{})
+var (
+	source = &Source{
+		r: bufio.NewReaderSize(cryptoRand.Reader, 1024),
+	}
+	globalRand = rand.New(source)
+)
 
 func BinaryN(n int) (string, error) {
-	v := make([]byte, n)
-	if err := binary.Read(cryptoRand.Reader, binary.BigEndian, &v); err != nil {
-		return "", err
-	}
-	return unsafe.String(unsafe.SliceData(v), len(v)), nil
+	b := make([]byte, n)
+	_, err := source.Read(b)
+	return string(b), err
 }
 
-type cryptoSource struct{}
+type Source struct {
+	r *bufio.Reader
+}
 
-func (s cryptoSource) Uint64() uint64 {
-	var v uint64
-	if err := binary.Read(cryptoRand.Reader, binary.BigEndian, &v); err != nil {
+func (s *Source) Uint64() uint64 {
+	b := make([]byte, 8)
+	if _, err := s.Read(b); err != nil {
 		fmt.Println() //nolint:forbidigo
-		slog.Error("Crypto read failed", "error", err.Error())
+		slog.Error("Crypto read failed", "error", err)
 		os.Exit(1)
 	}
-	return v
+	return binary.BigEndian.Uint64(b)
+}
+
+func (s *Source) Read(p []byte) (int, error) {
+	return io.ReadFull(s.r, p)
 }
