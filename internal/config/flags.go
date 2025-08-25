@@ -23,7 +23,7 @@ func (c *Config) RegisterFlags(cmd *cobra.Command) {
 	fs.StringVar(&c.File, FlagConfig, c.File, `Config file (default "`+file+`")`)
 
 	fs.IntP(FlagCount, "c", c.Count, "Number of passphrases to generate")
-	fs.String(FlagWordlist, c.Wordlist,
+	fs.StringP(FlagWordlist, "l", c.Wordlist,
 		"Wordlist source (one of: "+strings.Join(wordlist.MetaStrings(), ", ")+", or a file path)",
 	)
 	fs.StringP(FlagTemplate, "t", c.Template,
