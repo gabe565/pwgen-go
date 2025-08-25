@@ -14,7 +14,7 @@ require (
 	github.com/knadh/koanf/v2 v2.2.2
 	github.com/muesli/termenv v0.16.0
 	github.com/pelletier/go-toml/v2 v2.2.4
-	github.com/spf13/cobra v1.9.2-0.20250311125636-ceb39aba25c8
+	github.com/spf13/cobra v1.9.2-0.20250811135823-3f3b81882534
 	github.com/spf13/pflag v1.0.7
 	github.com/stretchr/testify v1.10.0
 )
