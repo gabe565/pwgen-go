@@ -14,14 +14,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const defaultCount = 10
+
 func Test_run(t *testing.T) {
 	tmp, err := os.CreateTemp(t.TempDir(), "pwgen-test-config-*.toml")
 	require.NoError(t, err)
 	_ = tmp.Close()
 
 	defaultArgs := []string{"--config=" + tmp.Name()}
-
-	const defaultCount = 10
 
 	type want struct {
 		re        string
@@ -168,6 +168,86 @@ func Test_run(t *testing.T) {
 			cmd.SetOut(&stdout)
 			require.NoError(t, cmd.Execute())
 			require.NoError(t, err)
+		})
+	}
+}
+
+func Test_run_positional_args(t *testing.T) {
+	tmp, err := os.CreateTemp(t.TempDir(), "pwgen-test-config-*.toml")
+	require.NoError(t, err)
+	_ = tmp.Close()
+
+	defaultArgs := []string{"--config=" + tmp.Name()}
+
+	type want struct {
+		re        string
+		lineCount int
+	}
+	tests := []struct {
+		name    string
+		args    []string
+		want    want
+		wantErr require.ErrorAssertionFunc
+	}{
+		{
+			name:    "positional profile",
+			args:    []string{"alpha:64"},
+			want:    want{re: `^[A-Za-z]{64}$`, lineCount: defaultCount},
+			wantErr: require.NoError,
+		},
+		{
+			name:    "positional template",
+			args:    []string{"{{ alpha 8 }}"},
+			want:    want{re: `^[A-Za-z]{8}$`, lineCount: defaultCount},
+			wantErr: require.NoError,
+		},
+		{
+			name:    "positional template overrides profile flag",
+			args:    []string{"{{ alpha 5 }}", "--profile=alpha:32"},
+			want:    want{re: `^[A-Za-z]{5}$`, lineCount: defaultCount},
+			wantErr: require.NoError,
+		},
+		{
+			name:    "positional profile overrides template flag",
+			args:    []string{"alpha:7", "--template=abc"},
+			want:    want{re: `^[A-Za-z]{7}$`, lineCount: defaultCount},
+			wantErr: require.NoError,
+		},
+		{
+			name:    "invalid positional profile",
+			args:    []string{"does-not-exist"},
+			want:    want{lineCount: -1},
+			wantErr: require.Error,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cmd := New(WithContext(t.Context()))
+			tt.args = append(defaultArgs, tt.args...)
+			cmd.SetArgs(tt.args)
+
+			var stdout strings.Builder
+			cmd.SetOut(&stdout)
+
+			tt.wantErr(t, cmd.Execute())
+
+			if tt.want.lineCount == -1 {
+				return
+			}
+
+			re, err := regexp.Compile(tt.want.re)
+			require.NoError(t, err)
+
+			var lineCount int
+			for _, line := range strings.Split(strings.TrimSpace(stdout.String()), "\n") {
+				if line == "" {
+					continue
+				}
+				lineCount++
+				assert.Regexp(t, re, line)
+			}
+			assert.Equal(t, tt.want.lineCount, lineCount)
 		})
 	}
 }
