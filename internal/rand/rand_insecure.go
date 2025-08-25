@@ -3,6 +3,7 @@
 package rand
 
 import (
+	"encoding/base64"
 	"math/rand/v2"
 	"strings"
 
@@ -26,4 +27,12 @@ func BinaryN(n int) (string, error) {
 		s.WriteByte(byte(globalRand.Uint64()))
 	}
 	return s.String(), nil
+}
+
+func BytesN(n int) (string, error) {
+	b := make([]byte, n)
+	for i := range n {
+		b[i] = byte(globalRand.Uint64())
+	}
+	return base64.StdEncoding.EncodeToString(b), nil
 }

@@ -5,6 +5,7 @@ package rand
 import (
 	"bufio"
 	cryptoRand "crypto/rand"
+	"encoding/base64"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -25,6 +26,14 @@ func BinaryN(n int) (string, error) {
 	b := make([]byte, n)
 	_, err := source.Read(b)
 	return string(b), err
+}
+
+func BytesN(n int) (string, error) {
+	b := make([]byte, n)
+	if _, err := source.Read(b); err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(b), nil
 }
 
 type Source struct {
