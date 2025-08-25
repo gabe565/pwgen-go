@@ -33,7 +33,7 @@ param = 4
 template = '{{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}'
 
 [profiles.laravel]
-template = 'base64:{{ binary 32 | b64enc }}'
+template = 'base64:{{ bytes 32 }}'
 
 [profiles.pin]
 template = '{{ num . }}'

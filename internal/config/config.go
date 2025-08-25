@@ -76,7 +76,7 @@ func New() *Config {
 			"ascii":    {"{{ ascii . }}", 32},
 			"diceware": {`{{ wordsWithNum . | join "-" | title }}`, 4},
 			"django":   {`{{ randFromStr "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)" 50 }}`, 0},
-			"laravel":  {`base64:{{ binary 32 | b64enc }}`, 0},
+			"laravel":  {`base64:{{ bytes 32 }}`, 0},
 			"pin":      {"{{ num . }}", 6},
 			"words":    {`{{ words . | join " " }}`, 4},
 		},
