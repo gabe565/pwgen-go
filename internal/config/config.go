@@ -10,12 +10,12 @@ import (
 type Config struct {
 	File string `toml:"-"`
 
-	Count    int           `toml:"count"    comment:"Number of passphrases to generate."`
-	Profile  ProfileRef    `toml:"profile"  comment:"Default profile used to generate passphrases."`
-	Param    any           `toml:"-"`
-	Profiles ProfileMap    `toml:"profiles" comment:"Preconfigured profiles and default parameters."`
-	Wordlist wordlist.Meta `toml:"wordlist" comment:"Wordlist to use. (one of: long, short1, short2)"`
-	Template string        `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile."`
+	Count    int        `toml:"count"    comment:"Number of passphrases to generate."`
+	Profile  ProfileRef `toml:"profile"  comment:"Default profile used to generate passphrases."`
+	Param    any        `toml:"-"`
+	Profiles ProfileMap `toml:"profiles" comment:"Preconfigured profiles and default parameters."`
+	Wordlist string     `toml:"wordlist" comment:"Wordlist source. (one of: long, short1, short2, or a file path)"`
+	Template string     `toml:"template" comment:"Default template used to generate passphrases. If not empty, will override the default profile."`
 }
 
 type ProfileMap map[string]Profile
@@ -80,6 +80,6 @@ func New() *Config {
 			"pin":      {"{{ num . }}", 6},
 			"words":    {`{{ words . | join " " }}`, 4},
 		},
-		Wordlist: wordlist.Long,
+		Wordlist: wordlist.Long.String(),
 	}
 }

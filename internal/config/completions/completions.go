@@ -42,7 +42,7 @@ func Profile(cmd *cobra.Command, args []string, toComplete string) ([]string, co
 	}
 
 	named := make([]string, 0, len(conf.Profiles))
-	wl, err := conf.Wordlist.List()
+	wl, err := wordlist.Load(conf.Wordlist)
 	if err != nil {
 		return nil, cobra.ShellCompDirectiveError
 	}

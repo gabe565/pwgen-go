@@ -1,9 +1,5 @@
 package wordlist
 
-import (
-	"errors"
-)
-
 //go:generate go tool enumer -type Meta -transform lower -text -output meta_string.go
 
 //nolint:recvcheck
@@ -54,17 +50,15 @@ func (m Meta) Var() string {
 	}
 }
 
-var ErrUnknownName = errors.New("unknown wordlist name")
-
-func (m Meta) List() (Wordlist, error) {
+func (m Meta) List() Wordlist {
 	switch m {
 	case Long:
-		return EFF_Long(), nil
+		return EFF_Long()
 	case Short1:
-		return EFF_Short1(), nil
+		return EFF_Short1()
 	case Short2:
-		return EFF_Short2(), nil
+		return EFF_Short2()
 	default:
-		return nil, ErrUnknownName
+		panic("unknown meta ID")
 	}
 }

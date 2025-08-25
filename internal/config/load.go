@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"gabe565.com/pwgen/internal/wordlist"
 	"github.com/knadh/koanf/providers/posflag"
 	"github.com/knadh/koanf/providers/rawbytes"
 	"github.com/knadh/koanf/providers/structs"
@@ -63,11 +64,11 @@ func Load(cmd *cobra.Command, args []string, save bool) (*Config, error) { //nol
 		return nil, err
 	}
 
-	if save {
-		if err := k.UnmarshalWithConf("", conf, koanf.UnmarshalConf{Tag: "toml"}); err != nil {
-			return nil, err
-		}
+	if err := k.UnmarshalWithConf("", conf, koanf.UnmarshalConf{Tag: "toml"}); err != nil {
+		return nil, err
+	}
 
+	if save {
 		newCfg, err := toml.Marshal(conf)
 		if err != nil {
 			return nil, err
@@ -86,6 +87,14 @@ func Load(cmd *cobra.Command, args []string, save bool) (*Config, error) { //nol
 				if err := os.WriteFile(conf.File, newCfg, 0o666); err != nil {
 					slog.Warn("Failed to write config", "err", err)
 				}
+			}
+		}
+	}
+
+	if _, err := wordlist.MetaString(conf.Wordlist); err != nil {
+		if !filepath.IsAbs(conf.Wordlist) {
+			if err := k.Set("wordlist", filepath.Join(filepath.Dir(conf.File), conf.Wordlist)); err != nil {
+				return nil, err
 			}
 		}
 	}

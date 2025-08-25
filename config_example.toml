@@ -2,7 +2,7 @@
 count = 10
 # Default profile used to generate passphrases.
 profile = 'diceware:4'
-# Wordlist to use. (one of: long, short1, short2)
+# Wordlist source. (one of: long, short1, short2, or a file path)
 wordlist = 'long'
 # Default template used to generate passphrases. If not empty, will override the default profile.
 template = ''

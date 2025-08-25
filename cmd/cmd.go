@@ -11,6 +11,7 @@ import (
 	"gabe565.com/pwgen/internal/config"
 	"gabe565.com/pwgen/internal/config/completions"
 	"gabe565.com/pwgen/internal/funcmap"
+	"gabe565.com/pwgen/internal/wordlist"
 	"gabe565.com/utils/cobrax"
 	"github.com/muesli/termenv"
 	"github.com/spf13/cobra"
@@ -75,7 +76,7 @@ func run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	wl, err := conf.Wordlist.List()
+	wl, err := wordlist.Load(conf.Wordlist)
 	if err != nil {
 		return err
 	}

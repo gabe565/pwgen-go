@@ -17,16 +17,24 @@ import (
 const defaultCount = 10
 
 func Test_run(t *testing.T) {
-	tmp, err := os.CreateTemp(t.TempDir(), "pwgen-test-config-*.toml")
-	require.NoError(t, err)
-	_ = tmp.Close()
+	tmpDir := t.TempDir()
 
-	defaultArgs := []string{"--config=" + tmp.Name()}
+	tmpConfig, err := os.CreateTemp(tmpDir, "config.toml")
+	require.NoError(t, err)
+	require.NoError(t, tmpConfig.Close())
+
+	defaultArgs := []string{"--config=" + tmpConfig.Name()}
+
+	tmpWordlist, err := os.CreateTemp(tmpDir, "wordlist.txt")
+	require.NoError(t, err)
+	_, err = tmpWordlist.WriteString("test\n")
+	require.NoError(t, err)
+	require.NoError(t, tmpWordlist.Close())
 
 	type want struct {
 		re        string
 		lineCount int
-		wordlist  wordlist.Meta
+		wordlist  string
 		split     string
 		wordCount int
 		nums      int
@@ -70,19 +78,25 @@ func Test_run(t *testing.T) {
 		{
 			"default wordlist",
 			[]string{"--profile=words:10", "--count=999"},
-			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Long},
+			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Long.String()},
 			require.NoError,
 		},
 		{
 			"short1 wordlist",
 			[]string{"--profile=words:10", "--count=999", "--wordlist=short1"},
-			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Short1},
+			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Short1.String()},
 			require.NoError,
 		},
 		{
 			"short2 wordlist",
 			[]string{"--profile=words:10", "--count=999", "--wordlist=short2"},
-			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Short2},
+			want{split: " ", re: `[a-z\-]+`, wordCount: 10, lineCount: 999, wordlist: wordlist.Short2.String()},
+			require.NoError,
+		},
+		{
+			"custom wordlist",
+			[]string{"--profile=words:10", "--count=1", "--wordlist=" + tmpWordlist.Name()},
+			want{split: " ", re: `test`, wordCount: 10, lineCount: 1, wordlist: tmpWordlist.Name()},
 			require.NoError,
 		},
 		{
@@ -108,7 +122,7 @@ func Test_run(t *testing.T) {
 
 			tt.wantErr(t, cmd.Execute())
 
-			wl, err := tt.want.wordlist.List()
+			wl, err := wordlist.Load(tt.want.wordlist)
 			require.NoError(t, err)
 
 			var re *regexp.Regexp
