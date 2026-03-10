@@ -7,7 +7,7 @@ require (
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/dave/jennifer v1.7.1
 	github.com/fatih/color v1.18.0
-	github.com/jedib0t/go-pretty/v6 v6.6.8
+	github.com/jedib0t/go-pretty/v6 v6.7.8
 	github.com/knadh/koanf/providers/posflag v1.0.1
 	github.com/knadh/koanf/providers/rawbytes v1.0.0
 	github.com/knadh/koanf/providers/structs v1.0.0
