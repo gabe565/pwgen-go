@@ -31,19 +31,15 @@ func main() {
 		panic(err)
 	}
 	buf.WriteString("### SEE ALSO\n")
-	buf.WriteString(
-		fmt.Sprintf("* [%s %s](%s_%s.md)  - %s\n",
-			root.Name(), "functions",
-			root.Name(), "functions",
-			"Template function reference",
-		),
+	fmt.Fprintf(&buf, "* [%s %s](%s_%s.md)  - %s\n",
+		root.Name(), "functions",
+		root.Name(), "functions",
+		"Template function reference",
 	)
-	buf.WriteString(
-		fmt.Sprintf("* [%s %s](%s_%s.md)  - %s\n",
-			root.Name(), profCmd.Name(),
-			root.Name(), profCmd.Name(),
-			profCmd.Short,
-		),
+	fmt.Fprintf(&buf, "* [%s %s](%s_%s.md)  - %s\n",
+		root.Name(), profCmd.Name(),
+		root.Name(), profCmd.Name(),
+		profCmd.Short,
 	)
 	if err := os.WriteFile(filepath.Join(output, "pwgen.md"), buf.Bytes(), 0o644); err != nil {
 		panic(err)
@@ -54,12 +50,10 @@ func main() {
 	profCmd.SetOut(&helpBuf)
 	profCmd.HelpFunc()(profCmd, nil)
 
-	buf.WriteString(
-		fmt.Sprintf("# %s\n\n%s\n\n### SEE ALSO\n* [%s](%s.md)  - %s",
-			profCmd.Name(),
-			helpBuf.String(),
-			root.Name(), root.Name(), root.Short,
-		),
+	fmt.Fprintf(&buf, "# %s\n\n%s\n\n### SEE ALSO\n* [%s](%s.md)  - %s",
+		profCmd.Name(),
+		helpBuf.String(),
+		root.Name(), root.Name(), root.Short,
 	)
 	if err := os.WriteFile(filepath.Join(output, "pwgen_profiles.md"), buf.Bytes(), 0o644); err != nil {
 		panic(err)

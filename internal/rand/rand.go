@@ -30,6 +30,7 @@ func ASCII(n int) string {
 	var s strings.Builder
 	s.Grow(n)
 	for range n {
+		//nolint:gosec // The bytes are restricted to ASCII printable characters
 		s.WriteByte(byte(globalRand.IntN(maxByte+1-minByte) + minByte))
 	}
 	return s.String()

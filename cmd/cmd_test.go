@@ -132,7 +132,7 @@ func Test_run(t *testing.T) {
 			}
 
 			var lineCount int
-			for _, line := range strings.Split(strings.TrimSpace(stdout.String()), "\n") {
+			for line := range strings.SplitSeq(strings.TrimSpace(stdout.String()), "\n") {
 				lineCount++
 
 				if tt.want.nums != -1 {
@@ -152,7 +152,7 @@ func Test_run(t *testing.T) {
 				} else {
 					assert.NotEmpty(t, wl)
 					var wordCount int
-					for _, word := range strings.Split(line, tt.want.split) {
+					for word := range strings.SplitSeq(line, tt.want.split) {
 						wordCount++
 						if re != nil {
 							assert.Regexp(t, re, word)
@@ -254,7 +254,7 @@ func Test_run_positional_args(t *testing.T) {
 			require.NoError(t, err)
 
 			var lineCount int
-			for _, line := range strings.Split(strings.TrimSpace(stdout.String()), "\n") {
+			for line := range strings.SplitSeq(strings.TrimSpace(stdout.String()), "\n") {
 				if line == "" {
 					continue
 				}
